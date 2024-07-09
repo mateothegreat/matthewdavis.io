@@ -1,0 +1,9 @@
+<script lang="ts">
+  export let post;
+</script>
+
+<div class="flex items-center gap-1 rounded-md bg-black/80 px-2 py-0.5 text-xs text-slate-400 dark:bg-black/80">
+  <span class="text-slate-600">by</span>
+  <span class="cursor-pointer text-indigo-500 dark:hover:bg-fuchsia-600 dark:hover:text-white">@mateothegreat</span>
+  <span class="text-slate-500">{new Date(post.data.publish).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+</div>

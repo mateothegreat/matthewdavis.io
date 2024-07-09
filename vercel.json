@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/old-slug",
+      "destination": "/new-slug",
+      "permanent": true
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+---
+import Header from "$components/header.svelte";
+import { getCollection } from "astro:content";
+import { ModeWatcher } from "mode-watcher";
+import BaseHead from "../../components/base-head.astro";
+import Footer from "../../components/footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import Nav from "../blog/nav.svelte";
+import Category from "./category.svelte";
+
+const categories = await getCollection("category");
+const parents = [
+  ...new Set(
+    categories
+      .map((category) => category.data.parent)
+      .filter(Boolean)
+      .sort()
+  )
+];
+console.log(parents);
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <div class="h-screen">
+      <ModeWatcher client:load />
+      <Header client:visible />
+      <main class="h-[calc(100vh-90px)] overflow-y-auto p-4">
+        <div class="flex h-full gap-4">
+          <Nav />
+          <div class="h-full flex-1">
+            <div class="h-full flex-1">
+              <div class="grid grid-flow-row-dense grid-cols-5 gap-4">
+                {
+                  parents.map((parent) => (
+                    <div class="col-span-5 grid-flow-row-dense grid-cols-12 gap-4 md:grid">
+                      <div class="col-span-2 flex items-center justify-end rounded-md font-medium text-slate-500">{parent.charAt(0).toUpperCase() + parent.slice(1)}:</div>
+                      <div class="col-span-10 grid-cols-12 gap-4 md:grid">{categories.map((category) => category.data.parent === parent && <Category category={category} />)}</div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+            <Footer />
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

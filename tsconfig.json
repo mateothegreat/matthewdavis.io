@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "$lib/*": [
+        "src/lib/*"
+      ],
+      "$src/*": [
+        "src/*"
+      ],
+      "$components/*": [
+        "src/components/*"
+      ],
+      "$layouts/*": [
+        "src/layouts/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "./astro.config.mjs",
+  ],
+  "extends": "astro/tsconfigs/strict"
+}
