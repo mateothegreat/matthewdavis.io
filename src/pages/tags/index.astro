@@ -2,9 +2,9 @@
 import Header from "$components/header.svelte";
 import { getAllTags } from "$lib/tags";
 import { ModeWatcher } from "mode-watcher";
-import BaseHead from "../../../components/base-head.astro";
-import Footer from "../../../components/footer.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
+import BaseHead from "../../components/base-head.astro";
+import Footer from "../../components/footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 
 const tags = await getAllTags();
 ---
