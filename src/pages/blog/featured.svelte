@@ -8,7 +8,7 @@
   export let post;
 </script>
 
-<div style="background-image: url({post.data.cover})" class="flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">
+<div style="background-image: url({post.data.cover})" class=" flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">
   <div class="flex flex-1 flex-col justify-between gap-2 p-4">
     <div class="flex flex-col gap-2">
       <div class="flex justify-end">

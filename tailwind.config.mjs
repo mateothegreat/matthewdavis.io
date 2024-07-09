@@ -1,10 +1,14 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 const config = {
 	darkMode: ["class"],
 	content: ["./src/**/*.{astro,md,mdx,html,svelte,ts}"],
 	safelist: ["dark"],
+	plugins: [
+		require('tailwindcss-debug-screens')
+	],
 	theme: {
 		container: {
 			center: true,
@@ -56,7 +60,14 @@ const config = {
 			},
 			fontFamily: {
 				sans: [...fontFamily.sans]
-			}
+			},
+			screens: {
+        // => @media (min-width: 0px and max-width: 639px) { ... }
+        xs: { min: '0px', max: '500px' },
+        sm: { min: '500px', max: '1000px' },
+        // min: { min: '500px', max: '1000px' },
+        // ...defaultTheme.screens,
+      },
 		}
 	},
 };

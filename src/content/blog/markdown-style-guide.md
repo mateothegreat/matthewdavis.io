@@ -5,7 +5,6 @@ cover: https://cdn.matthewdavis.io/istio.png
 publish: 2024-07-08T12:00:00Z
 created: 2024-07-08T12:00:00Z
 updated: 2024-07-08T12:00:00Z
-heroImage: '/blog-placeholder-1.jpg'
 ---
 
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
