@@ -1,5 +1,6 @@
 ---
 import BaseHead from "$components/base-head.astro";
+import SideBar from "$components/blog/side-bar.svelte";
 import Breadcrumbs from "$components/breadcrumbs/breadcrumbs.svelte";
 import type { Crumb } from "$components/breadcrumbs/crumb";
 import Footer from "$components/footer.astro";
@@ -8,6 +9,7 @@ import Nav from "$pages/blog/nav.svelte";
 import { type CollectionEntry } from "astro:content";
 import { ModeWatcher } from "mode-watcher";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+
 interface Props {
   post: CollectionEntry<"blog">;
 }
@@ -38,7 +40,7 @@ const crumbs: Crumb[] = [
     <div class="h-screen">
       <ModeWatcher client:load />
       <Header client:visible />
-      <main class="h-[calc(100vh-135px)] sm:overflow-y-auto sm:p-4 xs:p-2">
+      <main class="h-[calc(100vh-135px)] sm:overflow-y-auto sm:p-4 md:mr-4 xs:p-2">
         <div class="flex h-full gap-2">
           <Nav class="xs:hidden" />
           <div class="flex w-full flex-col gap-4 sm:overflow-auto">
@@ -46,6 +48,7 @@ const crumbs: Crumb[] = [
             <slot />
             <Footer />
           </div>
+          <SideBar class="sm:hidden" />
         </div>
       </main>
     </div>
