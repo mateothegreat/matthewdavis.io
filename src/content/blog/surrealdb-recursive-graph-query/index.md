@@ -1,0 +1,207 @@
+---
+title: SurrealDB recursive graph query
+description: Performing recursive queries against your graph sounds like a beast of an issue to tackle. Luckily, with SurrealDB this is quick work.
+cover: "cover.png"
+featured:
+  edition: July 2024
+publish: '2024-07-08T12:00:00Z'
+created: '2024-07-08T12:00:00Z'
+updated: '2024-07-08T12:00:00Z'
+author:
+  name: 'John Doe'
+  title: 'Software Engineer'
+tags:
+  - golang
+  - surrealdb
+  - graph
+theme:
+  title: 'text-indigo-500'
+  button: 'text-indigo-500'
+---
+
+Performing recursive queries against your graph sounds like a beast of an issue to tackle. Luckily, with SurrealDB this is quick work.
+
+## Create the schema
+
+In this example we will create two tables: component to hold some data and component_link to create the relationships:
+
+```sql title="create schema"
+-- Component
+
+DEFINE TABLE component SCHEMAFULL;
+DEFINE FIELD name ON TABLE component TYPE string;
+DEFINE FIELD description ON TABLE component TYPE string;
+DEFINE FIELD status ON TABLE component TYPE string;
+
+-- Component Link
+
+DEFINE TABLE component_link TYPE RELATION;
+DEFINE FIELD in ON TABLE component_link TYPE record<component>;
+DEFINE FIELD out ON TABLE component_link TYPE record<component>;
+DEFINE FIELD weight ON TABLE component TYPE int DEFAULT 0;
+```
+
+## Create the entities + relations
+
+Now we can create some test entities and then link them with `RELATE`:
+
+```sql title="create entities"
+LET $component1 = (CREATE component SET name = 'a', description = 'a', status = 'a');
+LET $component2 = (CREATE component SET name = 'b', description = 'b', status = 'b');
+LET $component3 = (CREATE component SET name = 'c', description = 'c', status = 'c');
+LET $component4 = (CREATE component SET name = 'd', description = 'd', status = 'd');
+LET $component5 = (CREATE component SET name = 'e', description = 'e', status = 'e');
+
+RELATE $component2->component_link->$component1;
+RELATE $component3->component_link->$component2;
+RELATE $component4->component_link->$component3;
+RELATE $component5->component_link->$component4;
+
+## Define the function
+
+Here is the best part, we create a simple function that recuses itself, pulling in the edges and node data:
+
+```sql title="recursive function"
+DEFINE FUNCTION fn::recurse($e: any) {
+    RETURN (
+        SELECT *,fn::recurse(component_link.out) FROM <-component_link.in
+    );
+};
+```
+
+Perform the query `SELECT *,fn::recurse($this) AS children FROM component`;
+
+```json title="result output"
+[
+ {
+  children: [
+   {
+    children: [
+     {
+      children: [
+       {
+        children: [
+         {
+          children: [],
+          description: 'e',
+          id: component:97m6jf7a0ntxh5pjyf1i,
+          name: 'e',
+          status: 'e',
+          weight: 0
+         }
+        ],
+        description: 'd',
+        id: component:ztwergfc9cbnv2mqym96,
+        name: 'd',
+        status: 'd',
+        weight: 0
+       }
+      ],
+      description: 'c',
+      id: component:mw2sa8dgwt4wu749yvwm,
+      name: 'c',
+      status: 'c',
+      weight: 0
+     }
+    ],
+    description: 'b',
+    id: component:7ytyku83bnr7y4bsvghs,
+    name: 'b',
+    status: 'b',
+    weight: 0
+   }
+  ],
+  description: 'a',
+  id: component:0lettndpnz67fw6wcwzj,
+  name: 'a',
+  status: 'a',
+  weight: 0
+ },
+ {
+  children: [
+   {
+    children: [
+     {
+      children: [
+       {
+        children: [],
+        description: 'e',
+        id: component:97m6jf7a0ntxh5pjyf1i,
+        name: 'e',
+        status: 'e',
+        weight: 0
+       }
+      ],
+      description: 'd',
+      id: component:ztwergfc9cbnv2mqym96,
+      name: 'd',
+      status: 'd',
+      weight: 0
+     }
+    ],
+    description: 'c',
+    id: component:mw2sa8dgwt4wu749yvwm,
+    name: 'c',
+    status: 'c',
+    weight: 0
+   }
+  ],
+  description: 'b',
+  id: component:7ytyku83bnr7y4bsvghs,
+  name: 'b',
+  status: 'b',
+  weight: 0
+ },
+ {
+  children: [],
+  description: 'e',
+  id: component:97m6jf7a0ntxh5pjyf1i,
+  name: 'e',
+  status: 'e',
+  weight: 0
+ },
+ {
+  children: [
+   {
+    children: [
+     {
+      children: [],
+      description: 'e',
+      id: component:97m6jf7a0ntxh5pjyf1i,
+      name: 'e',
+      status: 'e',
+      weight: 0
+     }
+    ],
+    description: 'd',
+    id: component:ztwergfc9cbnv2mqym96,
+    name: 'd',
+    status: 'd',
+    weight: 0
+   }
+  ],
+  description: 'c',
+  id: component:mw2sa8dgwt4wu749yvwm,
+  name: 'c',
+  status: 'c',
+  weight: 0
+ },
+ {
+  children: [
+   {
+    children: [],
+    description: 'e',
+    id: component:97m6jf7a0ntxh5pjyf1i,
+    name: 'e',
+    status: 'e',
+    weight: 0
+   }
+  ],
+  description: 'd',
+  id: component:ztwergfc9cbnv2mqym96,
+  name: 'd',
+  status: 'd',
+  weight: 0
+ }
+]
+```

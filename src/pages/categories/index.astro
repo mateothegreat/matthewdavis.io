@@ -12,7 +12,7 @@ const categories = await getCollection("category");
 const parents = [
   ...new Set(
     categories
-      .map((category) => category.data.parent)
+      .map((category) => category.data.parent as string)
       .filter(Boolean)
       .sort()
   )

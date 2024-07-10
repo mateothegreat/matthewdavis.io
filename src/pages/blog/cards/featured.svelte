@@ -7,7 +7,7 @@
 
 <div class="xs:text-xl flex w-full items-center justify-between gap-2 rounded-md bg-black/80 py-1.5 pl-3 text-3xl font-bold leading-9 text-fuchsia-500 dark:bg-black/80">
   <div class="">
-    {post.data.title}
+    <a href="/blog/{post.slug}" class="hover:text-blue-500">{post.data.title}</a>
   </div>
   <div class="flex">
     <Button variant="ghost">

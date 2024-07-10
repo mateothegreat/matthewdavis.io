@@ -1,44 +1,20 @@
 ---
-import Header from "$components/header.svelte";
-import { getAllTags } from "$lib/tags";
+import Breadcrumbs from "$components/breadcrumbs/breadcrumbs.svelte";
 import { getCollection } from "astro:content";
-import { ModeWatcher } from "mode-watcher";
-import BaseHead from "../../components/base-head.astro";
-import Footer from "../../components/footer.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import Blog from "../../layouts/blog.astro";
 import Card from "./card.svelte";
 import Featured from "./featured.svelte";
-import Nav from "./nav.svelte";
 
-const posts = (await getCollection("blog")).sort((a, b) => a.data.publish.valueOf() - b.data.publish.valueOf());
+const posts = (await getCollection("blog")).sort((a, b) => new Date(a.data.publish).valueOf() - new Date(b.data.publish).valueOf());
 const featured = posts.filter((post) => post.data.featured);
-getAllTags().then((a) => {
-  console.log(a);
-});
 ---
 
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body class="debug-screens">
-    <div class="h-screen">
-      <ModeWatcher client:load />
-      <Header client:visible />
-      <main class="xs:p-2 h-[calc(100vh-100px)] sm:overflow-y-auto sm:p-4">
-        <div class="flex h-full gap-2">
-          <Nav class="xs:hidden" />
-          <div class="flex flex-col gap-4 sm:overflow-auto">
-            <div class="">
-              {featured.map((post) => <Featured post={post} />)}
-            </div>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {posts.map((post) => <Card post={post} />)}
-            </div>
-            <Footer />
-          </div>
-        </div>
-      </main>
-    </div>
-  </body>
-</html>
+<Blog>
+  <Breadcrumbs crumbs={[{ label: "Blog", href: "/blog" }]} />
+  <div class="">
+    {featured.map(async (post) => <Featured post={post} />)}
+  </div>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    {posts.map((post) => <Card post={post} />)}
+  </div>
+</Blog>

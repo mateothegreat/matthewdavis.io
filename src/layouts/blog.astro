@@ -1,0 +1,29 @@
+---
+import Header from "$components/header.svelte";
+import { ModeWatcher } from "mode-watcher";
+import BaseHead from "../components/base-head.astro";
+import Footer from "../components/footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import Nav from "../pages/blog/nav.svelte";
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="debug-screens">
+    <div class="h-screen">
+      <ModeWatcher client:load />
+      <Header client:visible />
+      <main class="xs:p-2 h-[calc(100vh-135px)] sm:overflow-y-auto sm:p-4">
+        <div class="flex h-full gap-2">
+          <Nav class="xs:hidden" />
+          <div class="flex w-full flex-col gap-4 sm:overflow-auto">
+            <slot />
+            <Footer />
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

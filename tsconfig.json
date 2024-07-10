@@ -1,4 +1,5 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "module": "esnext",
     "baseUrl": ".",
@@ -14,12 +15,19 @@
       ],
       "$layouts/*": [
         "src/layouts/*"
+      ],
+      "$content/*": [
+        "src/content/*"
+      ],
+      "$pages/*": [
+        "src/pages/*"
       ]
     }
   },
   "include": [
+    "src/**/*.d.ts",
     "src/**/*.ts",
-    "./astro.config.mjs",
-  ],
-  "extends": "astro/tsconfigs/strict"
+    "src/**/*.astro",
+    "astro.config.mjs"
+  ]
 }

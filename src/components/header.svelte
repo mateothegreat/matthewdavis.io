@@ -31,7 +31,7 @@
   <nav class="flex items-center">
     <div class="xs:hidden">
       <a href="/">
-        <img class="min-w-fit sm:m-4" src="title.png" alt="matthewdavis.io" />
+        <img class="min-w-fit sm:m-4" src="/title.png" alt="matthewdavis.io" />
       </a>
     </div>
     <div class="flex flex-1 items-center">

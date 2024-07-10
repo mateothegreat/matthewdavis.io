@@ -16,23 +16,25 @@ const category = defineCollection({
 
 const blog = defineCollection({
 	type: 'content',
-	schema: z.object({
+	schema: ({ image }) => z.object({
 		title: z.string(),
 		description: z.string(),
-		cover: z.string().optional(),
+		cover: image().refine((img) => img.width >= 1080, {
+			message: "Cover image must be at least 1080 pixels wide!",
+		}),
 		created: z.union([z.coerce.date(), z.string().datetime()]),
 		publish: z.union([z.coerce.date(), z.string().datetime()]),
 		updated: z.union([z.coerce.date(), z.string().datetime()]).optional(),
 		tags: z.array(z.string()).optional(),
-		featured: z.boolean().optional(),
+		featured: z.object({
+			edition: z.string(),
+		}).optional(),
 		theme: z.object({
 			title: z.string().optional(),
 			button: z.string().optional(),
 		}).optional(),
 	}),
 });
-
-
 
 export const collections = { blog, category };
 

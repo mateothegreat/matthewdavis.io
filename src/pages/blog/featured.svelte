@@ -6,16 +6,17 @@
   import Tag from "./tag.svelte";
 
   export let post;
+  export let viewing = true;
 </script>
 
-<div style="background-image: url({post.data.cover})" class=" flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">
+<div style="background-image: url({post.data.cover.src})" class=" flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">
   <div class="flex flex-1 flex-col justify-between gap-2 p-4">
     <div class="flex flex-col gap-2">
       <div class="flex justify-end">
-        <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-fuchsia-500 dark:bg-black/70">
+        <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-green-500 dark:bg-black/70">
           <Stars class="h-4 w-4" />
           FEATURED
-          <span class="text-slate-500">JULY 2024</span>
+          <span class="uppercase text-slate-500">{post.data.featured.edition}</span>
         </div>
       </div>
       <Featured {post} />
@@ -31,7 +32,7 @@
           {/if}
         </div>
       </div>
-      <Actions {post} />
+      <Actions {post} readmore={!viewing} />
     </div>
   </div>
 </div>

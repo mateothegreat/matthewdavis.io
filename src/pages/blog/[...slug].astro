@@ -1,5 +1,7 @@
 ---
 import { getCollection } from "astro:content";
+import BlogPost from "../../layouts/blog-post.astro";
+import Featured from "./featured.svelte";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -9,6 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
+
 const post = await getCollection("blog").then((posts) => posts.find((p) => p.slug === slug));
 
 if (!post) {
@@ -16,12 +19,6 @@ if (!post) {
 }
 ---
 
-<html lang="en">
-  <head>
-    <title>{post.data.title}</title>
-  </head>
-  <body>
-    <h1>{post.data.title}</h1>
-    <div>{post.content}></div>
-  </body>
-</html>
+<BlogPost {post}>
+  <Featured post={post} />
+</BlogPost>
