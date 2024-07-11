@@ -1,9 +1,9 @@
 ---
+import type { Variant } from "../variants.ts";
 import CalloutComponent from "./callout-component.svelte";
-import type { CalloutType } from "./callouts";
 
 interface Props {
-  variant: CalloutType;
+  variant: Variant;
   message: string;
 }
 

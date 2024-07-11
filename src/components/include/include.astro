@@ -1,16 +1,19 @@
 ---
+import type { Variant } from "../variants";
 import IncludeComponent from "./include-component.svelte";
 
 interface Props {
+  title: string;
+  variant: Variant;
   category: string;
   name: string;
 }
 
-const markdownFile = await import(`../content/snippets/${Astro.props.category}/${Astro.props.name}.md`);
+const markdownFile = await import(`../../content/snippets/${Astro.props.category}/${Astro.props.name}.md`);
 
 if (!markdownFile) {
   throw new Error(`Markdown file for ${Astro.props.name} not found`);
 }
 ---
 
-<IncludeComponent content={markdownFile.compiledContent()} />
+<IncludeComponent client:load content={markdownFile.compiledContent()} title={Astro.props.title} variant={Astro.props.variant} />

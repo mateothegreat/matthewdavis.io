@@ -1,1 +1,0 @@
-export type CalloutType = "note" | "warning" | "info" | "error" | "success" | "tip" | "quote";

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
+  import * as Breadcrumb from "$components/ui/breadcrumb";
   import type { Crumb } from "./crumb";
 
   export let crumbs: Crumb[] = [];

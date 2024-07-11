@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Tooltip from "$lib/components/ui/tooltip";
+  import * as Tooltip from "$components/ui/tooltip";
   import { Github, Linkedin, Mail, Menu, Stars, X } from "lucide-svelte";
   import { writable } from "svelte/store";
   import Mode from "./mode.svelte";
