@@ -1,4 +1,5 @@
 ---
+import Toc from "$components/toc/toc.svelte";
 import { nest } from "$lib/arrays";
 import type { TocConfig } from "$src/components/toc/toc-config";
 import { Button } from "$src/components/ui/button";
@@ -12,7 +13,8 @@ interface Props {
 const { post } = Astro.props;
 console.log("Post data:", post);
 
-let Content: any, headings, toc: TocConfig[];
+let Content: any, headings;
+let toc: TocConfig[] = [];
 if (post) {
   const p = await post.render();
   Content = p.Content;
@@ -34,7 +36,7 @@ if (post) {
       </Button>
     </div>
     <div class="mb-1 text-sm text-slate-600">Table of Contents</div>
-    <!-- <Toc config={toc} /> -->
+    <Toc config={toc} />
   </div>
   <div class="">
     {Content ? <Content /> : <p>Unable to load content.</p>}
