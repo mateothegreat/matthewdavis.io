@@ -6,6 +6,7 @@ import Post from "./post.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
+
   return posts.map((post) => ({
     params: {
       slug: post.slug

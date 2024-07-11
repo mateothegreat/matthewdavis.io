@@ -1,4 +1,4 @@
-import { rehypeHeadingIds } from '@astrojs/markdown-remark';
+import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
@@ -6,10 +6,13 @@ import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel/static";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
+import sectionize from '@hbsnow/rehype-sectionize';
 import astroExpressiveCode from "astro-expressive-code";
 import { defineConfig } from 'astro/config';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
 import remarkToc from 'remark-toc';
+
+
 /** @type {import('astro').AstroUserConfig} */
 export default defineConfig({
   site: "https://matthewdavis.io",
@@ -39,7 +42,8 @@ export default defineConfig({
   markdown: {
     // Applied to .md and .mdx files
     remarkPlugins: [ [remarkToc, { heading: "contents"} ] ],
-    rehypePlugins: [rehypeHeadingIds,rehypeAccessibleEmojis]
+    rehypePlugins: [sectionize,rehypeHeadingIds,rehypeAccessibleEmojis],
+    
   },
   output: "static",
   adapter: vercel(),
