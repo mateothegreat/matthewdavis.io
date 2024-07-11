@@ -1,5 +1,5 @@
 ---
-import Callout from "./callout.svelte";
+import CalloutComponent from "./callout-component.svelte";
 import type { CalloutType } from "./callouts";
 
 interface Props {
@@ -12,4 +12,4 @@ if (!Astro.props.variant) {
 }
 ---
 
-<Callout variant={Astro.props.variant} message={Astro.props.message} />
+<CalloutComponent variant={Astro.props.variant} message={Astro.props.message} />
