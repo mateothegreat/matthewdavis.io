@@ -3,9 +3,9 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/old-slug",
-      "destination": "/new-slug",
+      "source": "/blog/:postTitle",
+      "destination": "/blog/[slug]",
       "permanent": true
     }
-  ],
+  ]
 }
