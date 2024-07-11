@@ -1,0 +1,15 @@
+---
+import Callout from "./callout.svelte";
+import type { CalloutType } from "./callouts";
+
+interface Props {
+  variant: CalloutType;
+  message: string;
+}
+
+if (!Astro.props.variant) {
+  throw new Error("variant and message are required");
+}
+---
+
+<Callout variant={Astro.props.variant} message={Astro.props.message} />

@@ -40,12 +40,12 @@ const crumbs: Crumb[] = [
       <main class="h-[calc(100vh-135px)] sm:overflow-y-auto sm:p-4 md:mr-4 xs:p-2">
         <div class="flex h-full gap-2">
           <Nav class="xs:hidden" />
-          <div class="flex w-full flex-col gap-4 overflow-auto">
+          <div class="flex w-full flex-col gap-2 overflow-auto">
             <Breadcrumbs {crumbs} />
             <slot />
             <Footer />
           </div>
-          <SideBar class="mt-[37px] sm:hidden" />
+          <SideBar class="mt-[28px] sm:hidden" />
         </div>
       </main>
     </div>

@@ -2,6 +2,7 @@
 import Markdown from "$components/include.astro";
 import Toc from "$components/toc/toc.svelte";
 import { nest } from "$lib/arrays";
+import Callout from "$src/components/callout/callout.astro";
 import type { TocConfig } from "$src/components/toc/toc-config";
 import { Button } from "$src/components/ui/button";
 import { type CollectionEntry } from "astro:content";
@@ -24,7 +25,7 @@ if (post) {
 }
 ---
 
-<div class="post-wrapper flex gap-8">
+<div class="post-wrapper mt-2 flex gap-8">
   <div class="w-52 sm:hidden">
     <div class="mb-2 flex items-center gap-2">
       <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
@@ -40,7 +41,7 @@ if (post) {
     <Toc config={toc} />
   </div>
   <div class="">
-    {Content ? <Content components={{ Markdown }} /> : <p>Unable to load content.</p>}
+    {Content ? <Content components={{ Markdown, Callout }} /> : <p>Unable to load content.</p>}
   </div>
 </div>
 

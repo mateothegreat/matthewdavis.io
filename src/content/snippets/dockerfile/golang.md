@@ -1,3 +1,11 @@
+---
+title: Golang Dockerfile
+description: A simple Dockerfile for a Golang application.
+publish: '2024-07-11T12:00:00Z'
+tags:
+  - docker
+  - golang
+---
 
 ```dockerfile
 FROM golang:1.22.0-alpine as builder
