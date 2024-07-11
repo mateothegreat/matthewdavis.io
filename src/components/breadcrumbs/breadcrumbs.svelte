@@ -13,12 +13,12 @@
   ];
 </script>
 
-<Breadcrumb.Root>
+<Breadcrumb.Root class={$$props.class}>
   <Breadcrumb.List>
     {#each _crumbs as crumb, index}
       <Breadcrumb.Item>
         {#if index < _crumbs.length - 1}
-          <Breadcrumb.Link href={crumb.href}>{crumb.label}</Breadcrumb.Link>
+          <Breadcrumb.Link href={crumb.href} class="text-slate-600 hover:text-blue-600">{crumb.label}</Breadcrumb.Link>
           <Breadcrumb.Separator />
         {:else}
           <Breadcrumb.Page>{crumb.label}</Breadcrumb.Page>

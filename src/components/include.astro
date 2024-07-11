@@ -1,0 +1,14 @@
+---
+interface Props {
+  category: string;
+  name: string;
+}
+
+const markdownFile = await import(`../content/snippets/${Astro.props.category}/${Astro.props.name}.md`);
+
+if (!markdownFile) {
+  throw new Error(`Markdown file for ${name} not found`);
+}
+---
+
+<article set:html={markdownFile.compiledContent()} />

@@ -1,4 +1,5 @@
 ---
+import Markdown from "$components/include.astro";
 import Toc from "$components/toc/toc.svelte";
 import { nest } from "$lib/arrays";
 import type { TocConfig } from "$src/components/toc/toc-config";
@@ -11,10 +12,10 @@ interface Props {
 }
 
 const { post } = Astro.props;
-console.log("Post data:", post);
 
 let Content: any, headings;
 let toc: TocConfig[] = [];
+
 if (post) {
   const p = await post.render();
   Content = p.Content;
@@ -24,7 +25,7 @@ if (post) {
 ---
 
 <div class="post-wrapper flex gap-8">
-  <div class="w-48">
+  <div class="w-52 sm:hidden">
     <div class="mb-2 flex items-center gap-2">
       <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
         <BookmarkPlus class="h-5 w-5" />
@@ -39,7 +40,7 @@ if (post) {
     <Toc config={toc} />
   </div>
   <div class="">
-    {Content ? <Content /> : <p>Unable to load content.</p>}
+    {Content ? <Content components={{ Markdown }} /> : <p>Unable to load content.</p>}
   </div>
 </div>
 

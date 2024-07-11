@@ -1,33 +1,14 @@
 <script lang="ts">
   import * as Tooltip from "$lib/components/ui/tooltip";
-  import { Github, Linkedin, Mail, Menu, Stars, Turtle, X } from "lucide-svelte";
+  import { Github, Linkedin, Mail, Menu, Stars, X } from "lucide-svelte";
   import { writable } from "svelte/store";
   import Mode from "./mode.svelte";
   import Button from "./ui/button/button.svelte";
 
-  const isMenuOpen = writable(Turtle);
-
-  // let isMobile = false;
-
-  // onMount(() => {
-  //   const checkMobile = () => {
-  //     isMobile = window.innerWidth <= 768;
-  //   };
-
-  //   checkMobile();
-  //   window.addEventListener("resize", checkMobile);
-
-  //   return () => {
-  //     window.removeEventListener("resize", checkMobile);
-  //   };
-  // });
-
-  const toggleMenu = () => {
-    isMenuOpen.update((n) => !n);
-  };
+  const isMenuOpen = writable(true);
 </script>
 
-<header class="xs:pt-2 md:p-4">
+<header class="md:p-4 xs:pt-2">
   <nav class="flex items-center">
     <div class="xs:hidden">
       <a href="/">
@@ -38,19 +19,19 @@
       <div class="flex flex-1 flex-col gap-4">
         <!-- Featured Post -->
         <div class="flex items-end justify-end">
-          <div class="xs:w-full xs:m-1 flex h-8 cursor-pointer items-center gap-2 rounded-md border-2 border-slate-400 bg-zinc-500/70 bg-gradient-to-r from-fuchsia-500 to-cyan-500 px-2 text-sm font-bold dark:border-slate-500 dark:hover:border-indigo-600 sm:mr-2">
+          <div class="flex h-8 cursor-pointer items-center gap-2 rounded-md border-2 border-slate-400 bg-zinc-500/70 bg-gradient-to-r from-fuchsia-500 to-cyan-500 px-2 text-sm font-bold dark:border-slate-500 dark:hover:border-indigo-600 sm:mr-2 xs:m-1 xs:w-full">
             <div class="flex gap-1 text-xs text-black">
               <Stars class="h-4 w-4" />
               FEATURED
             </div>
             <span class="text-shite text-xs uppercase">Speed kills software engineering!</span>
-            <span class="xs:hidden text-xs text-slate-900">JULY EDITION</span>
+            <span class="text-xs text-slate-900 xs:hidden">JULY EDITION</span>
           </div>
         </div>
         <!-- End Featured Post -->
         <div class="flex justify-end">
-          <div class="xs:w-full flex flex-row justify-end rounded-lg bg-zinc-300/90 px-2 py-1 tracking-widest dark:bg-zinc-900/90 sm:mr-2 sm:bg-slate-300/90">
-            <Button variant="ghost" on:click={toggleMenu} class="xs:hidden text-slate-600 sm:visible md:hidden">
+          <div class="flex flex-row justify-end rounded-lg bg-zinc-300/90 px-2 py-1 tracking-widest dark:bg-zinc-900/90 sm:mr-2 sm:bg-slate-300/90 xs:w-full">
+            <Button variant="ghost" on:click={() => ($isMenuOpen = !$isMenuOpen)} class="text-slate-600 sm:visible md:hidden xs:hidden">
               {#if $isMenuOpen}
                 <X class="h-6 w-6" />
               {:else}
@@ -58,8 +39,8 @@
               {/if}
             </Button>
             {#if $isMenuOpen}
-              <div class="xs:pt-2 xs:gap-2 xs:flex-col-reverse flex w-full">
-                <div class="xs:justify-evenly flex">
+              <div class="flex w-full xs:flex-col-reverse xs:gap-2 xs:pt-2">
+                <div class="flex xs:justify-evenly">
                   <Button variant="ghost">
                     <a href="/" class="text-slate-500">HOME</a>
                   </Button>
