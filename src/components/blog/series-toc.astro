@@ -1,15 +1,19 @@
 ---
+import { type Series } from "$lib/content";
 import { Icon } from "astro-icon/components";
-import type { Series } from "../../lib/content";
 import Button from "../button.astro";
 import { Badge } from "../ui/badge/index";
 
 export interface Props {
-  series: Series;
+  series: Series | undefined;
 }
 
 const { series } = Astro.props as Props;
-const currentSlug: string = Astro.url.pathname.split("/").pop() || "";
+const currentSlug: string = Astro.url?.pathname.split("/").pop() || "";
+
+if (!series) {
+  return;
+}
 ---
 
 <div class="flex gap-2">

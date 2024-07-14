@@ -26,9 +26,12 @@ const blog = defineCollection({
 		publish: z.union([z.coerce.date(), z.string().datetime()]),
 		updated: z.union([z.coerce.date(), z.string().datetime()]).optional(),
 		tags: z.array(z.string()).optional(),
-		featured: z.object({
-			edition: z.string(),
-		}).optional(),
+		featured: z.union([
+			z.object({
+				edition: z.string(),
+			}),
+			z.boolean()
+		]).optional(),
 		theme: z.object({
 			title: z.string().optional(),
 			button: z.string().optional(),

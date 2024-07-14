@@ -11,27 +11,20 @@ const posts = allPosts.filter((post) => !post.data.featured);
 
 <Blog>
   <Breadcrumbs crumbs={[{ label: "Blog", href: "/blog" }]} />
-  {
-    featured.length > 0 && (
-      <div class={`lg:grid-cols-${featured.length > 1 ? 2 : 1} grid gap-4`}>
-        {featured.map(async (post) => (
-          <PostHeader post={post} />
-        ))}
-      </div>
-    )
-  }
-  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+  <div class="rounded-xl bg-black p-4">
     {
-      posts.map((post) => (
-        <div class="{$$props.class} flex flex-col gap-2">
-          <div class="flex w-full items-center gap-2 rounded-md bg-black/80 px-3 py-0.5 text-xl font-bold leading-9 text-indigo-500 dark:bg-black/80">
-            <a href={`/blog/${post.slug}`} class="hover:text-fuchsia-500">
-              {post.data.title}
-            </a>
-          </div>
-          <div class="line-clamp-2 rounded-md bg-black/70 px-2 py-1 text-sm font-normal text-slate-400 dark:bg-black/80 dark:text-slate-400">{post.data.description}</div>
+      featured.length > 0 && (
+        <div class={`lg:grid-cols-${featured.length > 1 ? 2 : 1} grid gap-4`}>
+          {featured.map(async (post) => (
+            <PostHeader post={post} />
+          ))}
         </div>
-      ))
+      )
     }
+  </div>
+  <div class="rounded-lg bg-zinc-900/50 p-2">
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      {posts.map((post) => <PostHeader post={post} />)}
+    </div>
   </div>
 </Blog>

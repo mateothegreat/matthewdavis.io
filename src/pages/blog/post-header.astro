@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
 import { Stars } from "lucide-svelte";
-import Actions from "./actions.astro";
 import Author from "./author.astro";
 import Tag from "./tag.astro";
 
@@ -11,54 +10,70 @@ export interface Props {
   series?: boolean;
 }
 
-const { post, viewing = true, series = false } = Astro.props;
+const { post, viewing = false, series = false } = Astro.props;
 ---
 
-<div style={`background-image: url(${post?.data.cover.src})`} class="flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/75 hover:dark:border-slate-800">
-  <div class="flex flex-1 flex-col justify-between gap-2 p-2">
-    <div class="flex flex-col gap-2">
-      {
-        series && (
-          <div class="flex justify-end">
-            <div class="flex items-center gap-1 rounded-md bg-orange-500 px-2 py-1 text-xs font-bold text-white">
-              <Icon name="mdi:book-open-page-variant-outline" class="h-5 w-5" />
-              SERIES
-            </div>
-          </div>
-        )
-      }
-      {
-        post?.data.featured && (
-          <div class="flex justify-end">
-            <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-green-500 dark:bg-black/70">
-              <Stars class="h-4 w-4" />
-              FEATURED
-              {post?.data.featured.edition && <span class="uppercase text-slate-500">{post?.data.featured.edition}</span>}
-            </div>
-          </div>
-        )
-      }
-      <div class="flex w-full items-center justify-between gap-2 rounded-md bg-black/80 py-1.5 pl-3 text-3xl font-bold leading-9 text-fuchsia-500 dark:bg-black/60 xs:text-xl">
+<div class="group relative flex aspect-[1200/628] max-h-[400px] flex-row rounded-md border-2 bg-cover bg-center dark:border-slate-900 dark:bg-zinc-900/75 hover:dark:border-slate-800">
+  <img src={post?.data.cover.src} alt="Post cover" class="h-full w-full rounded-md object-cover" />
+  <div class="duration-400 absolute flex h-full w-full flex-col items-center justify-center bg-black/50 transition-all group-hover:bg-black/25">
+    <div class="flex flex-1 flex-col justify-between gap-2 p-2">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-end gap-2">
+          {
+            series && (
+              <div class="flex justify-end">
+                <div class="flex items-center gap-1 rounded-md bg-orange-500 px-2 py-1 text-xs font-bold text-white">
+                  <Icon name="mdi:book-open-page-variant-outline" class="h-5 w-5" />
+                  SERIES
+                </div>
+              </div>
+            )
+          }
+          {
+            post?.data.featured && (
+              <div class="flex justify-end">
+                <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-green-500 dark:group-hover:bg-black/90">
+                  <Stars class="h-4 w-4" />
+                  FEATURED
+                  {post?.data.featured.edition && <span class="uppercase text-slate-500">{post?.data.featured.edition}</span>}
+                </div>
+              </div>
+            )
+          }
+          {
+            post?.data.featured && (
+              <div class="flex gap-3">
+                <Icon name="uil:link-add" class="h-6 w-6 text-slate-400" />
+                <Icon name="material-symbols:share-reviews" class="h-7 w-7 text-yellow-500" />
+              </div>
+            )
+          }
+        </div>
         <div class="">
-          <a href={`/blog/${post?.slug}`} class="hover:text-blue-500">{post?.data.title}</a>
+          {
+            viewing ? (
+              <div class={`flex w-fit items-center justify-between gap-2 rounded-md bg-black/75 px-3 py-1 font-bold leading-9 ${post?.data.featured ? "text-3xl text-fuchsia-500" : "text-2xl text-blue-500"}`}>{post?.data.title}</div>
+            ) : (
+              <a href={`/blog/${post?.slug}`} class={`flex w-fit items-center justify-between gap-2 rounded-md bg-black/75 px-3 py-1 font-bold leading-9 dark:group-hover:bg-black/90 ${post?.data.featured ? "text-3xl text-fuchsia-500 hover:text-blue-500" : "text-lg text-blue-500 hover:text-fuchsia-500"}`}>
+                {post?.data.title}
+              </a>
+            )
+          }
         </div>
-        <div class="flex gap-3 px-3.5">
-          <Icon name="uil:link-add" class="h-6 w-6 text-slate-400" />
-          <Icon name="material-symbols:share-reviews" class="h-7 w-7 text-yellow-500" />
+        <div class="line-clamp-2 rounded-md bg-black/70 px-2 py-1 text-sm font-normal text-slate-400 dark:bg-black/75 dark:text-slate-400 dark:group-hover:bg-black/90 xs:text-xs">
+          {post?.data.description}
         </div>
       </div>
-      <div class="line-clamp-5 rounded-md bg-black/70 px-2 py-1 text-sm font-normal text-slate-400 dark:bg-black/60 dark:text-slate-400 xs:text-xs">
-        {post?.data.description}
-      </div>
-    </div>
-    <div class="flex w-full items-center justify-between">
-      <div class="flex flex-col items-center justify-between gap-1.5 text-sm font-normal leading-normal text-slate-600 md:flex-row">
+      <div class="flex w-full items-center justify-between">
+        <div class="flex flex-col items-center justify-between gap-1.5 text-sm font-normal leading-normal text-slate-600 md:flex-row">
+          <div class="flex flex-col items-center justify-between gap-1.5 text-sm font-normal leading-normal text-slate-600 md:flex-row">
+            <div class="flex items-center gap-1">
+              {post?.data.tags && post?.data.tags.map((tag: any) => <Tag class="dark:group-hover:bg-black/90" tag={tag} />)}
+            </div>
+          </div>
+        </div>
         <Author {post} />
-        <div class="flex items-center gap-1">
-          {post?.data.tags && post?.data.tags.map((tag: any) => <Tag tag={tag} />)}
-        </div>
       </div>
-      <Actions {post} readmore={!viewing} />
     </div>
   </div>
 </div>
