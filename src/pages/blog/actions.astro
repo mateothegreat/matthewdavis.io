@@ -1,0 +1,31 @@
+---
+import { Button } from "$components/ui/button/index";
+import { BookmarkPlus } from "lucide-svelte";
+
+export interface Props {
+  post: any;
+  readmore?: boolean;
+}
+
+const { post, readmore = true } = Astro.props as Props;
+
+if (!post?.slug) {
+  console.log(post);
+  console.log(post?.slug);
+}
+---
+
+<div class="flex gap-1">
+  <Button variant="ghost" class="h-8 bg-black/60 text-xs font-semibold text-fuchsia-500 dark:bg-black/70 dark:hover:bg-fuchsia-600 dark:hover:text-white">
+    <BookmarkPlus class="h-4 w-4" />
+  </Button>
+  {
+    readmore && (
+      <a href={`/blog/${post?.slug}`}>
+        <Button variant="ghost" class="dark:text-slate-5000 h-8 bg-black/60 text-xs font-semibold text-slate-400 dark:bg-black/70 dark:hover:bg-fuchsia-600 dark:hover:text-white sm:hidden">
+          READ MORE
+        </Button>
+      </a>
+    )
+  }
+</div>

@@ -10,15 +10,19 @@ import { Button } from "$src/components/ui/button";
 import { type CollectionEntry } from "astro:content";
 import { BookOpen, BookmarkPlus, Code, Github, Link2, Share2, Stars } from "lucide-svelte";
 import PostHeader from "$src/pages/blog/post-header.astro";
-import Actions from "./actions.astro";
-import Author from "./author.astro";
-import Tag from "./tag.astro";
+import Actions from "./actions.svelte";
+import Author from "./author.svelte";
+import Tag from "./tag.svelte";
 
 interface Props {
   post: CollectionEntry<"blog">;
 }
 
 const { post } = Astro.props;
+
+if (!post?.data) {
+  throw new Error("Post data is missing");
+}
 
 let Content: any, headings;
 let toc: TocConfig[] = [];
