@@ -1,6 +1,8 @@
 ---
+import { Icon } from "astro-icon/components";
 import { colors } from "../colors.ts";
 import { calloutIcons } from "../icons.ts";
+import { Icons } from "../lib/icons";
 import type { Variant } from "../variants.ts";
 
 interface Props {
@@ -23,9 +25,17 @@ const { variant, message, tags } = Astro.props as Props;
 ---
 
 {calloutIcons[variant]}
-<div class={`callout ${colors[variant]} flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm`}>
-  {calloutIcons[variant] && <svelte:component this={calloutIcons[variant]} class="h-7 w-7" />}
-  {message && <div class="ml-2">{message}</div>}
-  {tags && tags.map((tag) => <div class="ml-2">{tag}</div>)}
-  <slot />
+<div class={`callout ${colors[variant]} flex w-full gap-2 items-center rounded-md px-3 py-2.5 text-sm`}>
+  {
+    variant && Icons[variant] && (
+      <div class="h-6 w-6">
+        <Icon size={Icons[variant].size} name={Icons[variant].name} class={Icons[variant].classes} />
+      </div>
+    )
+  }
+  <div class="flex-1">
+    {message && <div class="">{message}</div>}
+    {tags && tags.map((tag) => <div class="">{tag}</div>)}
+    <slot />
+  </div>
 </div>

@@ -18,4 +18,4 @@ if (!markdownFile) {
 }
 ---
 
-<IncludeComponent content={markdownFile.compiledContent()} title={Astro.props.title || frontmatter.title} variant={Astro.props.variant} expanded={Astro.props.expanded} category={Astro.props.category} name={Astro.props.name} />
+<IncludeComponent client:load content={markdownFile.compiledContent()} title={Astro.props.title || frontmatter.title} variant={Astro.props.variant} expanded={Astro.props.expanded} category={Astro.props.category} name={Astro.props.name} />
