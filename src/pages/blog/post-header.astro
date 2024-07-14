@@ -1,6 +1,7 @@
 ---
 import { Button } from "$components/ui/button/index";
-import { BookOpen, Link2, Share2, Stars } from "lucide-svelte";
+import { Icon } from "astro-icon/components";
+import { Link2, Share2, Stars } from "lucide-svelte";
 import Actions from "./actions.astro";
 import Author from "./author.astro";
 import Tag from "./tag.astro";
@@ -14,14 +15,14 @@ export interface Props {
 const { post, viewing = true, series = false } = Astro.props;
 ---
 
-<div style={`background-image: url(${post?.data.cover.src})`} class="flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">
-  <div class="flex flex-1 flex-col justify-between gap-2 p-4">
+<div style={`background-image: url(${post?.data.cover.src})`} class="flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/75 hover:dark:border-slate-800">
+  <div class="flex flex-1 flex-col justify-between gap-2 p-2">
     <div class="flex flex-col gap-2">
       {
         series && (
           <div class="flex justify-end">
-            <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-orange-500 dark:bg-black/70">
-              <BookOpen class="h-4 w-4" />
+            <div class="flex items-center gap-1 rounded-md bg-orange-500 px-2 py-1 text-xs font-bold text-white">
+              <Icon name="mdi:book-open-page-variant-outline" class="h-5 w-5" />
               SERIES
             </div>
           </div>
@@ -38,7 +39,7 @@ const { post, viewing = true, series = false } = Astro.props;
           </div>
         )
       }
-      <div class="flex w-full items-center justify-between gap-2 rounded-md bg-black/80 py-1.5 pl-3 text-3xl font-bold leading-9 text-fuchsia-500 dark:bg-black/80 xs:text-xl">
+      <div class="flex w-full items-center justify-between gap-2 rounded-md bg-black/80 py-1.5 pl-3 text-3xl font-bold leading-9 text-fuchsia-500 dark:bg-black/60 xs:text-xl">
         <div class="">
           <a href={`/blog/${post?.slug}`} class="hover:text-blue-500">{post?.data.title}</a>
         </div>
@@ -51,14 +52,14 @@ const { post, viewing = true, series = false } = Astro.props;
           </Button>
         </div>
       </div>
-      <div class="line-clamp-5 rounded-md bg-black/70 px-2 py-1 text-sm font-normal text-slate-400 dark:bg-black/80 dark:text-slate-400 xs:text-xs">
+      <div class="line-clamp-5 rounded-md bg-black/70 px-2 py-1 text-sm font-normal text-slate-400 dark:bg-black/60 dark:text-slate-400 xs:text-xs">
         {post?.data.description}
       </div>
     </div>
     <div class="flex w-full items-center justify-between">
-      <div class="flex flex-col justify-between gap-0.5 text-sm font-normal leading-normal text-slate-600 md:flex-row">
+      <div class="flex flex-col items-center justify-between gap-1.5 text-sm font-normal leading-normal text-slate-600 md:flex-row">
         <Author {post} />
-        <div class="flex gap-0.5">
+        <div class="flex items-center gap-1">
           {post?.data.tags && post?.data.tags.map((tag: any) => <Tag tag={tag} />)}
         </div>
       </div>

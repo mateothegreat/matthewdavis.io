@@ -1,17 +1,31 @@
 ---
+import { colors } from "../colors.ts";
+import { calloutIcons } from "../icons.ts";
 import type { Variant } from "../variants.ts";
-import CalloutComponent from "./callout-component.svelte";
 
 interface Props {
   variant: Variant;
   message: string;
+  tags: string[];
 }
 
 if (!Astro.props.variant) {
   throw new Error("variant and message are required");
 }
+
+interface Props {
+  variant: Variant;
+  message: string;
+  tags: string[];
+}
+
+const { variant, message, tags } = Astro.props as Props;
 ---
 
-<CalloutComponent variant={Astro.props.variant} message={Astro.props.message}>
+{calloutIcons[variant]}
+<div class={`callout ${colors[variant]} flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm`}>
+  {calloutIcons[variant] && <svelte:component this={calloutIcons[variant]} class="h-7 w-7" />}
+  {message && <div class="ml-2">{message}</div>}
+  {tags && tags.map((tag) => <div class="ml-2">{tag}</div>)}
   <slot />
-</CalloutComponent>
+</div>

@@ -8,9 +8,10 @@ import { nest } from "$lib/arrays";
 import type { TocConfig } from "$src/components/toc/toc-config";
 import Callout from "$src/components/callout/callout.astro";
 import Markdown from "$src/components/include/include.astro";
-import SeriesToc from "$components/blog/series-toc.svelte";
+import SeriesToc from "$src/components/blog/series-toc.astro";
 import { getSeries } from "$lib/content";
 import PostHeader from "$src/pages/blog/post-header.astro";
+import { Icon } from "astro-icon/components";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -54,12 +55,12 @@ if (post) {
         <Button class="mb-2 flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
           <Code class="h-4 w-4" />
           Hack this post on
-          <Github class="h-4 w-4 text-zinc-400" />
+          <Icon name="line-md:github-loop" class="h-4 w-4 text-zinc-400" />
         </Button>
       </a>
       <div class="mb-2 flex items-center gap-2">
         <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
-          <BookmarkPlus class="h-5 w-5" />
+          <Icon name="mdi:bookmark-plus" class="h-6 w-6" />
           Save
         </Button>
         <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">

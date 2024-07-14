@@ -8,43 +8,58 @@ import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-s
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import sectionize from '@hbsnow/rehype-sectionize';
 import astroExpressiveCode from "astro-expressive-code";
+import icons from "astro-icon";
 import { defineConfig } from 'astro/config';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
 import remarkToc from 'remark-toc';
 
 /** @type {import('astro').AstroUserConfig} */
+
+// https://astro.build/config
 export default defineConfig({
   site: "https://matthewdavis.io",
   devToolbar: {
     enabled: false
   },
   integrations: [
-    sitemap(),
-    svelte(),
+    sitemap(), 
+    svelte(), 
     tailwind({
       applyBaseStyles: false
     }),
     astroExpressiveCode({
       themes: ["dracula", "solarized-light"],
       defaultProps: {
-        frame: "terminal",
-        wrap: true,
-        preserveIndent: true
-      },
-      plugins: [
-        pluginLineNumbers(),
-        pluginCollapsibleSections()
-      ]
-    }),
-    mdx()
-  ],
+      frame: "terminal",
+      wrap: true,
+      preserveIndent: true
+    },
+    plugins: [pluginLineNumbers(), pluginCollapsibleSections()],
+  }),
+  mdx(),
+  icons({
+      iconDir: "src/assets/icons",
+      include: {
+        // Include only three `mdi` icons in the bundle
+        mdi: ['*'],
+        // Include all `uis` icons
+        uis: ['*'],
+        "line-md": ['github-loop']
+      }
+    // svgoOptions:{
+    //   plugins: [
+    //     {
+    //       name: 'removeViewBox',
+    //       active: false,
+    //     },
+    //   ],
+    // }
+  })],
   markdown: {
-    remarkPlugins: [ [remarkToc, { heading: "contents"} ] ],
-    rehypePlugins: [
-      sectionize,
-      rehypeHeadingIds,
-      rehypeAccessibleEmojis,
-    ],
+    remarkPlugins: [[remarkToc, {
+      heading: "contents"
+    }]],
+    rehypePlugins: [sectionize, rehypeHeadingIds, rehypeAccessibleEmojis]
   },
   output: "static",
   adapter: vercel(),

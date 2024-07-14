@@ -1,0 +1,38 @@
+---
+import { Icon } from "astro-icon/components";
+import type { Series } from "../../lib/content";
+import { Badge } from "../ui/badge/index";
+
+export interface Props {
+  series: Series;
+}
+
+const { series } = Astro.props as Props;
+
+let currentSlug: string;
+// let currentSlug: string = window.location.pathname.split("/").pop() || "";
+---
+
+<div class="b flex flex-col gap-2 rounded-lg border border-slate-400 p-2 dark:border-slate-700">
+  <div class="flex items-center gap-1.5 text-sm text-orange-400">
+    <Badge variant="secondary" class="flex gap-1 bg-orange-500 px-1.5 py-0.5 text-white">
+      <Icon name="mdi:book-open-page-variant-outline" class="h-4 w-4" />
+      Series
+    </Badge>
+    <div class="font-semibold tracking-wider text-orange-500">{series.series?.data.title}</div>
+  </div>
+  <div class="flex flex-col gap-1">
+    {
+      series.posts.map((post, index) => (
+        <div class={`text-slate-4000 dark:text-slate-6000 group flex items-center gap-1.5 text-sm tracking-wide ${post.slug === currentSlug ? "text-blue-500" : ""}`}>
+          <div class="text-xs group-hover:text-slate-400">Part {index + 1}</div>
+          <div class="text-sm">
+            <a href={post.slug} class="group-hover:text-blue-500">
+              {post.data.title}
+            </a>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>

@@ -1,6 +1,6 @@
 ---
 import BaseHead from "$components/base-head.astro";
-import SideBar from "$components/blog/side-bar.svelte";
+import RightSideBar from "$components/blog/right-side-bar.svelte";
 import Breadcrumbs from "$components/breadcrumbs/breadcrumbs.svelte";
 import type { Crumb } from "$components/breadcrumbs/crumb";
 import Footer from "$components/footer.astro";
@@ -45,7 +45,7 @@ const crumbs: Crumb[] = [
             <slot />
             <Footer />
           </div>
-          <SideBar class="mt-[28px] sm:hidden" />
+          <RightSideBar class="mt-[28px] sm:hidden" />
         </div>
       </main>
     </div>

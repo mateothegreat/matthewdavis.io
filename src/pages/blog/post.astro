@@ -1,18 +1,14 @@
 ---
-import SeriesToc from "$components/blog/series-toc.svelte";
+import SeriesToc from "$src/components/blog/series-toc.astro";
 import Toc from "$components/toc/toc.svelte";
 import { nest } from "$lib/arrays";
-import { getSeries } from "$lib/content";
 import Callout from "$src/components/callout/callout.astro";
 import Markdown from "$src/components/include/include.astro";
 import type { TocConfig } from "$src/components/toc/toc-config";
 import { Button } from "$src/components/ui/button";
 import { type CollectionEntry } from "astro:content";
-import { BookOpen, BookmarkPlus, Code, Github, Link2, Share2, Stars } from "lucide-svelte";
-import PostHeader from "$src/pages/blog/post-header.astro";
-import Actions from "./actions.astro";
-import Author from "./author.astro";
-import Tag from "./tag.astro";
+
+import { BookmarkPlus, Code, Github, Share2 } from "lucide-svelte";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -22,7 +18,9 @@ const { post } = Astro.props;
 
 let Content: any, headings;
 let toc: TocConfig[] = [];
+
 let series: any;
+
 if (post) {
   const p = await post.render();
   Content = p.Content;
