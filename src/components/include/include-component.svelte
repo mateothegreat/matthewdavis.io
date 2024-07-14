@@ -1,9 +1,10 @@
 <script lang="ts">
   import { Collapsible } from "bits-ui";
-  import { Maximize2, Minimize2 } from "lucide-svelte";
+  import { Edit, Maximize2, Minimize2 } from "lucide-svelte";
   import { slide } from "svelte/transition";
   import { colors } from "../colors";
   import { calloutIcons } from "../icons";
+  import { Badge } from "../ui/badge";
   import { Button } from "../ui/button";
   import { type Variant } from "../variants";
 
@@ -37,7 +38,11 @@
   <Collapsible.Content class="" transition={slide}>
     <div contenteditable bind:innerHTML={content} />
   </Collapsible.Content>
-  <div class="justify-end text-sm">
-    <a href={`https://github.com/mateothegreat/matthewdavis.io/blob/main/src/content/snippets/${category}/${name}.md`}>Edit</a>
+  <div class="flex items-center justify-end text-sm">
+    <a class="flex items-center gap-1 hover:text-blue-400" href={`https://github.com/mateothegreat/matthewdavis.io/blob/main/src/content/snippets/${category}/${name}.md`}>
+      <Badge variant="outline">Snippet</Badge>
+      .../content/snippets/{category}/{name}.md
+      <Edit class="h-4 w-4" />
+    </a>
   </div>
 </Collapsible.Root>
