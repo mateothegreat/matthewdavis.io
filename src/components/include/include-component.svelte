@@ -16,7 +16,7 @@
 
 <Collapsible.Root class={`${colors[variant]} flex flex-col gap-4 rounded-lg p-4`} bind:open>
   <div class="flex items-center justify-between">
-    <div class="flex items-center gap-2 font-medium">
+    <div on:click={() => (open = !open)} class="flex w-full cursor-pointer items-center gap-2 font-medium">
       <svelte:component this={calloutIcons[variant]} class="h-6 w-6" />
       {title}
     </div>

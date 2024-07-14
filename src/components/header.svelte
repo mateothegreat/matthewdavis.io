@@ -41,17 +41,18 @@
             {#if $isMenuOpen}
               <div class="flex w-full xs:flex-col-reverse xs:gap-2 xs:pt-2">
                 <div class="flex xs:justify-evenly">
-                  <Button variant="ghost">
-                    <a href="/" class="text-slate-500">HOME</a>
-                  </Button>
-                  <Button variant="ghost" class="xs:hidden">
-                    <a href="/about" class="text-slate-500">ABOUT</a>
-                  </Button>
-                  <Button variant="ghost">
-                    <a href="/blog" class="bg-gradient-to-r from-slate-500 via-purple-600 to-blue-600 bg-clip-text text-transparent underline-offset-8 hover:bg-gradient-to-r hover:from-blue-500 hover:via-purple-600 hover:to-slate-600 hover:bg-clip-text hover:text-transparent">ARTICLES</a>
-                  </Button>
-                  <Button variant="ghost">
-                    <a href="/consulting" class="flex gap-1 text-[#ff3d51]">
+                  <a href="/" class="text-slate-500">
+                    <Button variant="ghost">HOME</Button>
+                  </a>
+                  <a href="/about" class="text-slate-500">
+                    <Button variant="ghost" class="xs:hidden">ABOUT</Button>
+                  </a>
+                  <a href="/blog" class="bg-gradient-to-r from-slate-500 via-purple-600 to-blue-600 bg-clip-text text-transparent underline-offset-8 hover:bg-gradient-to-r hover:from-blue-500 hover:via-purple-600 hover:to-slate-600 hover:bg-clip-text hover:text-transparent">
+                    <Button variant="ghost">ARTICLES</Button>
+                  </a>
+                  <a href="/consulting" class="text-[#ff3d51]">
+                    <Button class="flex gap-1 " variant="ghost">
+                      <span class="sm:hidden">GET </span>
                       HELP
                       <svg class="-mt-[1px] h-5 w-5" enable-background="new 0 0 520 520" height="512" viewBox="0 0 520 520" width="512" xmlns="http://www.w3.org/2000/svg" id="fi_4360666"
                         ><g id="_x31_5_x2C__support_x2C__secure_x2C__insurance"
@@ -71,8 +72,8 @@
                             ></g
                           ></g
                         ></svg>
-                    </a>
-                  </Button>
+                    </Button>
+                  </a>
                 </div>
                 <div class="flex items-center justify-center gap-5 md:ml-6">
                   <Tooltip.Root openDelay={500}>
