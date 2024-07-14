@@ -19,8 +19,8 @@ const blog = defineCollection({
 	schema: ({ image }) => z.object({
 		title: z.string(),
 		description: z.string(),
-		cover: image().refine((img) => img.width >= 1080, {
-			message: "Cover image must be at least 1080 pixels wide!",
+		cover: image().refine((img) => img.width >= 1000, {
+			message: "Cover image must be at least 1000 pixels wide!",
 		}),
 		created: z.union([z.coerce.date(), z.string().datetime()]),
 		publish: z.union([z.coerce.date(), z.string().datetime()]),
@@ -33,9 +33,19 @@ const blog = defineCollection({
 			title: z.string().optional(),
 			button: z.string().optional(),
 		}).optional(),
+		series: z.string().optional(),
 	}),
 });
 
-export const collections = { blog, category };
+const series = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		items: z.array(z.string()),
+	}),
+});
+
+export const collections = { blog, category, series };
 
 
