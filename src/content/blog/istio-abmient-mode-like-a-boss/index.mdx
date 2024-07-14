@@ -1,0 +1,117 @@
+---
+title: Ambient mesh with Istio like a boss!
+description: Configuring ambient mesh with Istio is easy, but it's not easy to get it right. This post will walk you through the process of setting up a simple ambient mesh with Istio and Gateway API.
+cover: "cover.png"
+publish: '2024-07-12T12:00:00Z'
+created: '2024-07-12T12:00:00Z'
+updated: '2024-07-12T12:00:00Z'
+author:
+  name: 'John Doe'
+  title: 'Software Engineer'
+tags:
+  - istio
+  - servicemesh
+  - kubernetes
+---
+Configuring ambient mesh with Istio is easy, but it's not easy to get it right. This post will walk you through the process of setting up a simple ambient mesh with Istio and Gateway API.
+asdf
+## Why ambient mesh and not sidecar?
+
+Ambient mesh uses a shared agent on each Kubernetes node, called a ***ztunnel***. This zero-trust tunnel securely connects and authenticates elements within the mesh, redirecting all traffic through the local ztunnel agent.
+
+This separation allows operators to manage the data plane independently from applications, enabling easier scaling and upgrades.
+
+Ztunnels provide core service mesh functions: zero trust, mTLS, telemetry, authentication, and L4 authorization, without parsing HTTP.
+
+In comparison, ztunnel doesn't perform L7 processing, making it leaner than sidecars and suitable as shared infrastructure. The traditional sidecar, which has been a staple of Istio for years, now faces a significant competitor. This new contender challenges the long-standing dominance of the sidecar model, introducing innovative approaches and technologies that promise to enhance performance, security, and overall efficiency in service mesh architectures.
+
+## Pre-requisites
+
+This post assumes you already have istio set up in `ambient` mode. In case you don't, this will get you up and running in two minutes:
+
+```yaml
+helm repo add istio https://istio-release.storage.googleapis.com/charts --force-update
+
+helm install -n istio-system istio-base istio/base --create-namespace
+helm install -n istio-system istio-cni istio/cni --set profile=ambient
+helm install -n istio-system istiod istio/istiod --set profile=ambient
+helm install -n istio-system ztunnel istio/ztunnel
+helm install -n istio-ingress istio-ingress istio/gateway --create-namespace
+
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f -; }
+```
+
+## The `Gateway`
+
+The Gateway API simplifies the configuration of ingress and egress traffic, providing a unified approach to managing traffic routing within the mesh. This helps in maintaining a clear and manageable structure for directing traffic to the appropriate services.
+
+### Setting Up the Gateway
+
+To set up the Gateway, you need to create a `Gateway` resource that defines how traffic enters the mesh.
+
+<Markdown variant="note" category="istio" name="gateway" expanded={true} />
+
+### Labeling the Namespace
+
+<Callout variant="warning" message="If you do not label your namespace(s) to match the selector above your routes will not be added!" />
+
+Next, label the namespace that will host your internal services to allow the Gateway to route traffic to them. 
+
+This is a crucial step which tells istio to look for `HTTPRoute` objects in this namespace.
+
+```bash
+kubectl label ns internal-services gateway-internal-access=true
+```
+
+## Create `HTTPRoute` Objects
+
+Create `HTTPRoute` resources to define how traffic should be routed to your services. Here's an example for two different services:
+
+### Tool A
+
+Define an `HTTPRoute` for `tool-a`:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: tool-a
+  namespace: internal-services
+spec:
+  hostnames:
+  - "tool-a.matthewdavis.io"
+  parentRefs:
+  - name: gateway
+    namespace: ingress-internal
+  rules:
+  - backendRefs:
+    - name: tool-a
+      port: 8080
+```
+
+### Tool B
+
+Define an `HTTPRoute` for `tool-b`:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: tool-b
+  namespace: internal-services
+spec:
+  hostnames:
+  - "tool-b.matthewdavis.io"
+  parentRefs:
+  - name: gateway
+    namespace: ingress-internal
+  rules:
+  - backendRefs:
+    - name: tool-b
+      port: 9090
+```
+
+## Learn more
+
+- https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api
+- https://gateway-api.sigs.k8s.io

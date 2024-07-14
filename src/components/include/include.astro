@@ -7,13 +7,15 @@ interface Props {
   variant: Variant;
   category: string;
   name: string;
+  expanded: boolean;
 }
 
 const markdownFile = await import(`../../content/snippets/${Astro.props.category}/${Astro.props.name}.md`);
+const frontmatter = markdownFile.frontmatter;
 
 if (!markdownFile) {
   throw new Error(`Markdown file for ${Astro.props.name} not found`);
 }
 ---
 
-<IncludeComponent client:load content={markdownFile.compiledContent()} title={Astro.props.title} variant={Astro.props.variant} />
+<IncludeComponent client:load content={markdownFile.compiledContent()} title={Astro.props.title || frontmatter.title} variant={Astro.props.variant} expanded={Astro.props.expanded} category={Astro.props.category} name={Astro.props.name} />

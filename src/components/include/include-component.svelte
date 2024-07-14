@@ -8,10 +8,13 @@
   import { type Variant } from "../variants";
 
   export let title: string;
+  export let name: string;
+  export let category: string;
   export let variant: Variant;
   export let content: string;
+  export let expanded: boolean;
 
-  let open: boolean;
+  let open: boolean = expanded;
 </script>
 
 <Collapsible.Root class={`${colors[variant]} flex flex-col gap-4 rounded-lg p-4`} bind:open>
@@ -34,4 +37,7 @@
   <Collapsible.Content class="" transition={slide}>
     <div contenteditable bind:innerHTML={content} />
   </Collapsible.Content>
+  <div class="justify-end text-sm">
+    <a href={`https://github.com/mateothegreat/matthewdavis.io/blob/main/src/content/snippets/${category}/${name}.md`}>Edit</a>
+  </div>
 </Collapsible.Root>
