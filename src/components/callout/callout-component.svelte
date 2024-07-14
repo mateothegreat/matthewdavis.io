@@ -7,11 +7,18 @@
   export let message: string;
 </script>
 
-<div class={`${colors[variant]} flex items-center gap-2 rounded-md p-4`}>
+<div class={`callout ${colors[variant]} flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-sm`}>
   {#if calloutIcons[variant]}
-    <svelte:component this={calloutIcons[variant]} class="h-6 w-6" />
+    <svelte:component this={calloutIcons[variant]} class="h-7 w-7" />
   {/if}
-  <div class="ml-2">
-    {message}
-  </div>
+  {#if message}
+    <div class="ml-2">
+      {message}
+    </div>
+  {/if}
+  {#if $$slots.default}
+    <div class="">
+      <slot />
+    </div>
+  {/if}
 </div>

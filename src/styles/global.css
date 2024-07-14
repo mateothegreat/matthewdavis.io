@@ -82,6 +82,7 @@ body {
   font-family: 'Roboto', sans-serif;
   background: var(--background);
   color: var(--foreground);
+  scroll-behavior: smooth;
 }
 
 .post-wrapper h1,
@@ -102,7 +103,7 @@ body {
 }
 
 .post-wrapper p {
-  @apply text-lg mt-3 mb-3 dark:text-slate-400 text-slate-600;
+  @apply  mt-3 mb-3 dark:text-slate-400 text-slate-600;
 }
 
 .post-wrapper p:first-child {
@@ -128,6 +129,17 @@ body {
 .post-wrapper p code {
   @apply bg-zinc-100 dark:bg-slate-700/60 px-1.5 py-0.5 rounded-lg;
 }
+
 .post-wrapper h2 code {
   @apply bg-zinc-100 dark:bg-slate-700/60 px-1 py-0.5 rounded-lg;
+}
+
+.callout p {
+  @apply  !text-sm m-0 !font-normal;
+}
+.callout a {
+  @apply  text-sm;
+}
+.callout a {
+  @apply text-blue-400 hover:text-fuchsia-600;
 }

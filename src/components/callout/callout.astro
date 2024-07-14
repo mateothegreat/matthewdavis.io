@@ -12,4 +12,6 @@ if (!Astro.props.variant) {
 }
 ---
 
-<CalloutComponent variant={Astro.props.variant} message={Astro.props.message} />
+<CalloutComponent variant={Astro.props.variant} message={Astro.props.message}>
+  <slot />
+</CalloutComponent>

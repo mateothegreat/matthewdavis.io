@@ -12,7 +12,6 @@ import { defineConfig } from 'astro/config';
 import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
 import remarkToc from 'remark-toc';
 
-
 /** @type {import('astro').AstroUserConfig} */
 export default defineConfig({
   site: "https://matthewdavis.io",
@@ -40,10 +39,12 @@ export default defineConfig({
     mdx()
   ],
   markdown: {
-    // Applied to .md and .mdx files
     remarkPlugins: [ [remarkToc, { heading: "contents"} ] ],
-    rehypePlugins: [sectionize,rehypeHeadingIds,rehypeAccessibleEmojis],
-    
+    rehypePlugins: [
+      sectionize,
+      rehypeHeadingIds,
+      rehypeAccessibleEmojis,
+    ],
   },
   output: "static",
   adapter: vercel(),

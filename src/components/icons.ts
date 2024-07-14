@@ -1,4 +1,4 @@
-import { AlertTriangle, CheckCircle, Info, Lightbulb, Notebook, Quote, XCircle } from "lucide-svelte";
+import { AlertTriangle, CheckCircle, Info, Lightbulb, Link2, Notebook, Quote, XCircle } from "lucide-svelte";
 
 export const calloutIcons = {
   note: Notebook,
@@ -7,5 +7,6 @@ export const calloutIcons = {
   error: XCircle,
   success: CheckCircle,
   tip: Lightbulb,
-  quote: Quote
+  quote: Quote,
+  link: Link2
 };
