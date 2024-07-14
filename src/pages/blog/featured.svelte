@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Stars } from "lucide-svelte";
+  import { BookOpen, Stars } from "lucide-svelte";
   import Actions from "./actions.svelte";
   import Author from "./author.svelte";
   import Featured from "./cards/featured.svelte";
@@ -7,11 +7,20 @@
 
   export let post;
   export let viewing = true;
+  export let series: boolean = false;
 </script>
 
 <div style="background-image: url({post.data.cover.src})" class=" flex min-h-[250px] w-full flex-row rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">
   <div class="flex flex-1 flex-col justify-between gap-2 p-4">
     <div class="flex flex-col gap-2">
+      {#if series}
+        <div class="flex justify-end">
+          <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-orange-500 dark:bg-black/70">
+            <BookOpen class="h-4 w-4" />
+            SERIES
+          </div>
+        </div>
+      {/if}
       {#if post.data.featured}
         <div class="flex justify-end">
           <div class="flex h-8 items-center gap-1 rounded-md bg-black/70 px-2 text-xs font-bold text-green-500 dark:bg-black/70">

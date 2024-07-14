@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import BlogPost from "../../layouts/blog-post.astro";
-import Featured from "./featured.svelte";
 import Post from "./post.astro";
 
 export async function getStaticPaths() {
@@ -27,6 +26,5 @@ if (!post) {
 ---
 
 <BlogPost {post}>
-  <Featured post={post} />
   <Post post={post} />
 </BlogPost>

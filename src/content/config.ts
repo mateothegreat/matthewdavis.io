@@ -34,6 +34,7 @@ const blog = defineCollection({
 			button: z.string().optional(),
 		}).optional(),
 		series: z.string().optional(),
+		part: z.number().optional(),
 	}),
 });
 

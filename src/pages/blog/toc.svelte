@@ -4,7 +4,6 @@
 
   export let headings: MarkdownHeading[];
   const nestedHeadings = nest(headings);
-  console.log(nestedHeadings);
 </script>
 
 <div class="w-96">
