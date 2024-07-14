@@ -1,0 +1,27 @@
+---
+import { twMerge } from "tailwind-merge";
+
+export const styles: Record<string, string> = {
+  default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+  destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+  outline: "border border-input bg-background shadow-sm",
+  secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+  ghost: "text-blue-500",
+  link: "text-primary underline-offset-4 hover:underline"
+};
+
+export type ButtonVariant = keyof typeof styles;
+
+export interface Props {
+  variant?: ButtonVariant;
+  label?: string;
+  href?: string;
+  class?: string;
+}
+
+const { label, href, class: className, variant = "default" } = Astro.props as Props;
+---
+
+<a href={href} class={twMerge("px-3.5 py-1.5 hover:bg-slate-800/50 hover:text-slate-200 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50", styles[variant], className)}>
+  {Astro.slots.default ? <slot /> : label}
+</a>

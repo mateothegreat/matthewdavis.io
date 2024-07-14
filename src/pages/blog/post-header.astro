@@ -1,7 +1,6 @@
 ---
-import { Button } from "$components/ui/button/index";
 import { Icon } from "astro-icon/components";
-import { Link2, Share2, Stars } from "lucide-svelte";
+import { Stars } from "lucide-svelte";
 import Actions from "./actions.astro";
 import Author from "./author.astro";
 import Tag from "./tag.astro";
@@ -43,13 +42,9 @@ const { post, viewing = true, series = false } = Astro.props;
         <div class="">
           <a href={`/blog/${post?.slug}`} class="hover:text-blue-500">{post?.data.title}</a>
         </div>
-        <div class="flex">
-          <Button variant="ghost">
-            <Share2 class="h-5 w-5 text-slate-500" />
-          </Button>
-          <Button variant="ghost">
-            <Link2 class="h-5 w-5 text-slate-500" />
-          </Button>
+        <div class="flex gap-3 px-3.5">
+          <Icon name="uil:link-add" class="h-6 w-6 text-slate-400" />
+          <Icon name="material-symbols:share-reviews" class="h-7 w-7 text-yellow-500" />
         </div>
       </div>
       <div class="line-clamp-5 rounded-md bg-black/70 px-2 py-1 text-sm font-normal text-slate-400 dark:bg-black/60 dark:text-slate-400 xs:text-xs">

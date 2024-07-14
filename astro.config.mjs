@@ -6,12 +6,12 @@ import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel/static";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
-import sectionize from '@hbsnow/rehype-sectionize';
+import sectionize from "@hbsnow/rehype-sectionize";
 import astroExpressiveCode from "astro-expressive-code";
 import icons from "astro-icon";
-import { defineConfig } from 'astro/config';
-import { rehypeAccessibleEmojis } from 'rehype-accessible-emojis';
-import remarkToc from 'remark-toc';
+import { defineConfig } from "astro/config";
+import { rehypeAccessibleEmojis } from "rehype-accessible-emojis";
+import remarkToc from "remark-toc";
 
 /** @type {import('astro').AstroUserConfig} */
 
@@ -22,43 +22,51 @@ export default defineConfig({
     enabled: false
   },
   integrations: [
-    sitemap(), 
-    svelte(), 
+    sitemap(),
+    svelte(),
     tailwind({
       applyBaseStyles: false
     }),
     astroExpressiveCode({
       themes: ["dracula", "solarized-light"],
       defaultProps: {
-      frame: "terminal",
-      wrap: true,
-      preserveIndent: true
-    },
-    plugins: [pluginLineNumbers(), pluginCollapsibleSections()],
-  }),
-  mdx(),
-  icons({
+        frame: "terminal",
+        wrap: true,
+        preserveIndent: true
+      },
+      plugins: [pluginLineNumbers(), pluginCollapsibleSections()]
+    }),
+    mdx(),
+    icons({
       iconDir: "src/assets/icons",
       include: {
         // Include only three `mdi` icons in the bundle
-        mdi: ['*'],
+        mdi: ["*"],
         // Include all `uis` icons
-        uis: ['*'],
-        "line-md": ['github-loop']
+        uis: ["*"],
+        "line-md": ["github-loop"],
+        "material-symbols": ["share-reviews"],
+        uil: ["link-add"]
+      },
+      svgoOptions: {
+        plugins: [
+          {
+            name: "removeViewBox",
+            active: false
+          }
+        ]
       }
-    // svgoOptions:{
-    //   plugins: [
-    //     {
-    //       name: 'removeViewBox',
-    //       active: false,
-    //     },
-    //   ],
-    // }
-  })],
+    })
+  ],
   markdown: {
-    remarkPlugins: [[remarkToc, {
-      heading: "contents"
-    }]],
+    remarkPlugins: [
+      [
+        remarkToc,
+        {
+          heading: "contents"
+        }
+      ]
+    ],
     rehypePlugins: [sectionize, rehypeHeadingIds, rehypeAccessibleEmojis]
   },
   output: "static",
@@ -69,7 +77,7 @@ export default defineConfig({
       noExternal: ["astro-imagetools", "astro-imagetools/components"]
     },
     resolve: {
-      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.astro'] // Ensure .astro files are recognized
+      extensions: [".js", ".ts", ".jsx", ".tsx", ".json", ".astro"] // Ensure .astro files are recognized
     },
     define: {
       __DATE__: `'${new Date().toISOString()}'`

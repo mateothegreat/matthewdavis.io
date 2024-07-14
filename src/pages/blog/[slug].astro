@@ -1,17 +1,16 @@
 ---
-import { getCollection } from "astro:content";
-import BlogPost from "../../layouts/blog-post.astro";
-import { Button } from "$src/components/ui/button";
-import { BookmarkPlus, Code, Github, Share2 } from "lucide-svelte";
 import Toc from "$components/toc/toc.svelte";
 import { nest } from "$lib/arrays";
-import type { TocConfig } from "$src/components/toc/toc-config";
-import Callout from "$src/components/callout/callout.astro";
-import Markdown from "$src/components/include/include.astro";
-import SeriesToc from "$src/components/blog/series-toc.astro";
 import { getSeries } from "$lib/content";
+import SeriesToc from "$components/blog/series-toc.astro";
+import Callout from "$components/callout/callout.astro";
+import Markdown from "$components/include/include.astro";
+import type { TocConfig } from "$components/toc/toc-config";
 import PostHeader from "$src/pages/blog/post-header.astro";
 import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
+import BlogPost from "../../layouts/blog-post.astro";
+import Button from "$components/button.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -53,18 +52,18 @@ if (post) {
     <div class="w-52 sm:hidden">
       <a href={`https://github.com/mateothegreat/matthewdavis.io/blob/main/src/content/blog/${post?.slug}/index.mdx`} target="_blank">
         <Button class="mb-2 flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
-          <Code class="h-4 w-4" />
+          <Icon name="mdi:code" class="h-4 w-4 text-green-600" />
           Hack this post on
-          <Icon name="line-md:github-loop" class="h-4 w-4 text-zinc-400" />
+          <Icon name="line-md:github-loop" class="h-4 w-4" />
         </Button>
       </a>
       <div class="mb-2 flex items-center gap-2">
-        <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
-          <Icon name="mdi:bookmark-plus" class="h-6 w-6" />
+        <Button class="flex w-full items-center gap-1 text-fuchsia-500 hover:bg-fuchsia-600 hover:text-white" variant="outline">
+          <Icon name="mdi:bookmark-plus" class="h-5 w-5" />
           Save
         </Button>
-        <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
-          <Share2 class="h-4 w-4" />
+        <Button class="flex w-full items-center gap-1 text-sky-600 hover:bg-fuchsia-600 hover:text-white" variant="outline">
+          <Icon name="material-symbols:share-reviews" class="h-5 w-5" />
           Share
         </Button>
       </div>
@@ -72,26 +71,13 @@ if (post) {
       <Toc config={toc} />
     </div>
     <div class="w-full">
-      {series ? <SeriesToc client:load series={series} /> : null}
+      {series ? <SeriesToc series={series} /> : null}
       {Content ? <Content components={{ Markdown, Callout }} /> : <p>Unable to load content.</p>}
     </div>
   </div>
 
   <script>
-    const linkSvg = ` 
-  <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      class="inline-block h-6 w-6 absolute bottom-0 -left-6 top-1.5" 
-      aria-hidden="true" 
-      focusable="false" 
-      viewBox="0 0 24 24" 
-      stroke-width="1" stroke="currentColor" 
-      fill="none" 
-      stroke-linecap="round" 
-      stroke-linejoin="round">
-          <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
-  </svg>
-  `;
+    const linkSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 absolute bottom-0 -left-5 top-0" aria-hidden="true" focusable="false" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></svg>`;
 
     document.addEventListener("DOMContentLoaded", () => {
       const anchorHeadings = document.querySelectorAll("h2, h3, h4, h5, h6");

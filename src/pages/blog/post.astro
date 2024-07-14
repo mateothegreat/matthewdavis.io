@@ -57,7 +57,7 @@ const viewing = true;
     <Toc config={toc} />
   </div>
   <div class="w-full">
-    {series ? <SeriesToc client:load series={series} /> : null}
+    {series ? <SeriesToc series={series} /> : null}
     {Content ? <Content components={{ Markdown, Callout }} /> : <p>Unable to load content.</p>}
   </div>
 </div>
