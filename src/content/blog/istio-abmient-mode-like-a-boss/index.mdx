@@ -14,7 +14,7 @@ tags:
   - kubernetes
 ---
 Configuring ambient mesh with Istio is easy, but it's not easy to get it right. This post will walk you through the process of setting up a simple ambient mesh with Istio and Gateway API.
-asdf
+
 ## Why ambient mesh and not sidecar?
 
 Ambient mesh uses a shared agent on each Kubernetes node, called a ***ztunnel***. This zero-trust tunnel securely connects and authenticates elements within the mesh, redirecting all traffic through the local ztunnel agent.

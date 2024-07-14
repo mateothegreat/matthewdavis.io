@@ -6,7 +6,7 @@ import Markdown from "$src/components/include/include.astro";
 import type { TocConfig } from "$src/components/toc/toc-config";
 import { Button } from "$src/components/ui/button";
 import { type CollectionEntry } from "astro:content";
-import { BookmarkPlus, Share2 } from "lucide-svelte";
+import { BookmarkPlus, Code2, Github, Share2 } from "lucide-svelte";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -27,6 +27,13 @@ if (post) {
 
 <div class="post-wrapper mt-2 flex gap-8">
   <div class="w-52 sm:hidden">
+    <a href={`https://github.com/mateothegreat/matthewdavis.io/blob/main/src/content/blog/${post.slug}/index.mdx`} target="_blank">
+      <Button class="mb-2 flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
+        <Code2 class="h-4 w-4" />
+        Hack this post on
+        <Github class="h-4 w-4 text-zinc-400" />
+      </Button>
+    </a>
     <div class="mb-2 flex items-center gap-2">
       <Button class="flex w-full items-center gap-1 hover:bg-fuchsia-600 hover:text-white" variant="outline">
         <BookmarkPlus class="h-5 w-5" />
@@ -37,6 +44,7 @@ if (post) {
         Share
       </Button>
     </div>
+
     <div class="mb-1 text-sm text-slate-600">Table of Contents</div>
     <Toc config={toc} />
   </div>
