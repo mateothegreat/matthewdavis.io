@@ -31,8 +31,20 @@ With the proliferation of technology in the platform engineering landscape, it i
 
 ## Your First Customer: Software Engineering
 
-### Assessing the Capabilities
+### Assessment
 
-### Advocating for Change
+The first step in aligning platform engineering with organizational goals is to evaluate the current capabilities of the software engineering teams. This involves understanding their workflows, pain points, and requirements.
+
+Conduct thorough assessments using methods like in-depth interviews and detailed observational studies to gain a comprehensive and unbiased understanding of the current situation. This will allow you to create a clear picture of where specific improvements are needed, enabling a precise and targeted resolution of issues and enhancements.
+
+### Adapt, Overcome
+
+Once the assessments are in, the next step is to champion the necessary changes.
+
+This involves presenting findings to stakeholders, proposing new workflows, and showcasing  undeniable benefits of adopting the platform.
+
+Effective advocacy requires clear communication, emphasizing the potential for efficiency and how the change will reduce cognitive load for developers.
+
+Lead by example — I will show you, not just tell you.
 
 ## The Future of Platform Engineering
