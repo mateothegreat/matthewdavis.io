@@ -11,15 +11,28 @@ tags:
 featured: true
 ---
 
-The value of platform engineering as a natural progression of the DevOps movement is undeniable. Its tenet is to deliver a rich and easy-to-use developer experience while significantly reducing cognitive load.
+The value of platform engineering as a natural progression of the DevOps movement is undeniable.
+
+Its tenet is to deliver a rich and easy-to-use developer experience while **significantly** reducing cognitive load.
 
 While everyone is eager to assemble their tech arsenal, it's crucial to address a fundamental question:
-> Is platform engineering solely about tooling?
 
-## The tools are the tools
+> If platform engineering builds doors with the latest and greatest tooling, who will be capable of knocking?
+
+## The Misconception
 
 While many new deployments of Platform Engineering focus on tools, tech stacks, integrations, and other technology details, they risk missing the bigger picture — people and processes.
 
-Platform engineering is not merely about tools and components; it is about ensuring organizational alignment by deeply understanding the needs of software engineering teams.
+Platform engineering is not just about tools and components; it is a comprehensive approach that should set the baseline for understanding developers struggles with operationalizing software throughout the organization.
 
-## The user is first
+## The Current State of Affairs
+
+With the proliferation of technology in the platform engineering landscape, it is essential to remember that the true success of a platform hinges not only on the innovative tech but also the consumers that ensure its viability and success.
+
+## Your First Customer: Software Engineering
+
+### Assessing the Capabilities
+
+### Advocating for Change
+
+## The Future of Platform Engineering
