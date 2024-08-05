@@ -1,0 +1,43 @@
+---
+title: Ambient mesh with Istio like a boss!
+description: Configuring ambient mesh with Istio is easy, but it's not easy to get it right. This post will walk you through the process of setting up a simple ambient mesh with Istio and Gateway API.
+cover: "cover.png"
+publish: "2024-07-12T12:00:00Z"
+created: "2024-07-12T12:00:00Z"
+updated: "2024-07-12T12:00:00Z"
+author:
+  name: "John Doe"
+  title: "Software Engineer"
+tags:
+  - istio
+  - servicemesh
+  - kubernetes
+---
+
+Istio CNI plugin is not a CNI like Cilium. Cilium is handling your networking in lieu of kube proxy and is using eBPF instead of IP tables. Ambient is independent from whichever CNI you choose. The istio CNI plugin is responsible for detecting when pods enter the ambient mesh and hand over traffic to the zero trust tunnel node proxy. Currently ambient is still using IP tables, not eBPF. If you're already all in on cilium, you may as well use the Cilium service mesh instead of istio. That being said, ambient would be able to work with cilium CNI. I haven't seen any real world comparisons between ambient and other meshes yet. But if you're in the poc phase, try out cilium service mesh, istio ambient, and linkerd and see what works best for you.
+
+Istio can be configured to use eBPF to get traffic to the sidecar proxies, but for ambient mode we actually came up with something better. If you have a lot of iptables rules, you can get a speed-up with eBPF, but for the small number of rules that we need with ambient mode, it's probably not worth the hassle.
+
+https://www.cncf.io/blog/2024/02/20/maturing-istio-ambient-compatibility-across-various-kubernetes-providers-and-cnis/
+
+```bash
+helm repo add istio https://istio-release.storage.googleapis.com/charts --force-update
+helm install -n istio-system istio-base istio/base --create-namespace
+helm install -n istio-system istio-cni istio/cni --set profile=ambient
+helm install -n istio-system istiod istio/istiod --set profile=ambient
+helm install -n istio-system ztunnel istio/ztunnel
+helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
+```
+
+```bash
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f -
+```
+
+```bash
+kubectl get ns -L istio.io/dataplane-mode
+```
+
+```bash
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/prometheus.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/addons/kiali.yaml
+```
