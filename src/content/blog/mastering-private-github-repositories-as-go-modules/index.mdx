@@ -1,0 +1,113 @@
+---
+title: Private GitHub Go Modules
+description: Setting up and using private GitHub repos as Go modules, ensuring secure and efficient development for your proprietary code.
+cover: "./cover.png"
+publish: "2024-07-12T12:00:00Z"
+created: "2024-07-12T12:00:00Z"
+updated: "2024-07-12T12:00:00Z"
+author:
+  name: "John Doe"
+  title: "Software Engineer"
+tags:
+  - istio
+  - servicemesh
+  - kubernetes
+---
+
+In the world of Go development, modules have revolutionized dependency management. But what happens when you need to use private GitHub repositories as modules in your Go projects? This blog post will guide you through the process of setting up and using private GitHub repos as Go modules, ensuring secure and efficient development for your proprietary code.
+
+## Why Use Private GitHub Repositories as Go Modules?
+
+Before we dive into the how, let's briefly discuss why you might want to use private GitHub repositories as Go modules:
+
+1. Code Privacy: Keep proprietary code secure and separate from public repositories.
+2. Version Control: Benefit from Git's version control while managing private dependencies.
+3. Collaboration: Share private modules within your team or organization.
+4. Dependency Management: Utilize Go's module system for all your dependencies, public and private.
+
+## Step-by-Step Guide to Using Private GitHub Repos as Go Modules
+
+### Setting Up Your Private GitHub Repository
+
+First things first, you need a private GitHub repository.
+
+If you don't already have one, create a new repository. Let's assume you've already got one.
+
+### Initialize Your Module
+
+Navigate to your project directory and initialize a new module:
+
+```bash
+go mod init github.com/your-username/your-private-repo
+```
+
+### Authenticate with GitHub
+
+To authenticate with GitHub, you need to create a personal access token.
+
+1. Go to your [GitHub settings](https://github.com/settings/tokens).
+2. Click on "Personal access tokens."
+3. Click on "Generate new token."
+4. Give your token a name, select the appropriate scopes, and click "Generate token."
+
+Now, you can use the token to authenticate with GitHub.
+
+```bash
+git config --global url."git@github.com:".insteadOf "https://github.com/"
+```
+
+#### Set up the credential store
+
+##### Mac
+
+```bash
+git config --global credential.credentialStore keychain
+```
+
+##### Linux
+
+```bash
+git config --global credential.credentialStore gpg
+```
+
+##### Windows
+
+```bash
+git config --global credential.credentialStore wincred
+```
+
+### Set Up Environment Variables
+
+We need to tell Go to treat our private repository as a private module to be able to pull from GitHub.
+
+You can do this by setting the `GOPRIVATE` environment variable:
+
+```bash
+export GOPRIVATE=github.com/your-username/your-private-repo
+```
+
+If you have multiple organizations, you can use a wildcard to tell Go to ignore all repositories in a specific organization:
+
+```bash
+export GOPRIVATE="github.com/your-username/*,github.com/your-organization/*"
+```
+
+Or, you can use `go env -w` to tell Go to ignore the private repository when resolving modules:
+
+```bash
+go env -w GOPRIVATE=github.com/your-username/your-private-repo
+```
+
+### Use the Module in Your Project
+
+Now you can fetch your private module like any other:
+
+```bash
+go get github.com/your-username/your-private-repo
+```
+
+### Conclusion
+
+Remember, the key to success with private modules is proper authentication setup and careful management of your GOPRIVATE settings.
+
+Happy coding!

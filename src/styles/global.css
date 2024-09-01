@@ -143,3 +143,7 @@ body {
 .callout a {
   @apply text-blue-400 hover:text-fuchsia-600;
 }
+
+ol {
+  @apply ml-4 list-decimal;
+}
