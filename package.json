@@ -23,7 +23,7 @@
     "@iconify-json/line-md": "^1.1.38",
     "@iconify-json/material-symbols": "^1.1.84",
     "@iconify-json/mdi": "^1.1.67",
-    "astro": "^4.11.5",
+    "astro": "^4.16.6",
     "astro-icon": "^1.1.0",
     "astro-imagetools": "^0.9.0",
     "bits-ui": "^0.21.12",
