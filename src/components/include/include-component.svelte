@@ -8,20 +8,32 @@
   import { Button } from "../ui/button";
   import { type Variant } from "../variants";
 
-  export let title: string;
-  export let name: string;
-  export let category: string;
-  export let variant: Variant;
-  export let content: string;
-  export let expanded: boolean;
+  interface Props {
+    title: string;
+    name: string;
+    category: string;
+    variant: Variant;
+    content: string;
+    expanded: boolean;
+  }
 
-  let open: boolean = expanded;
+  let {
+    title,
+    name,
+    category,
+    variant,
+    content = $bindable(),
+    expanded
+  }: Props = $props();
+
+  let open: boolean = $state(expanded);
 </script>
 
 <Collapsible.Root class={`${colors[variant]} flex flex-col gap-4 rounded-lg p-4`} bind:open>
+  {@const SvelteComponent = calloutIcons[variant]}
   <div class="flex items-center justify-between">
-    <div on:click={() => (open = !open)} class="flex w-full cursor-pointer items-center gap-2 font-medium">
-      <svelte:component this={calloutIcons[variant]} class="h-6 w-6" />
+    <div onclick={() => (open = !open)} class="flex w-full cursor-pointer items-center gap-2 font-medium">
+      <SvelteComponent class="h-6 w-6" />
       {title}
     </div>
     <Collapsible.Trigger class="">
@@ -36,7 +48,7 @@
     </Collapsible.Trigger>
   </div>
   <Collapsible.Content class="" transition={slide}>
-    <div contenteditable bind:innerHTML={content} />
+    <div contenteditable bind:innerHTML={content}></div>
   </Collapsible.Content>
   <div class="flex items-center justify-end text-sm">
     <a class="flex items-center gap-1 hover:text-blue-400" href={`https://github.com/mateothegreat/matthewdavis.io/blob/main/src/content/snippets/${category}/${name}.md`}>

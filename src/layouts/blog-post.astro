@@ -10,6 +10,9 @@ import { type CollectionEntry } from "astro:content";
 import { ModeWatcher } from "mode-watcher";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 
+console.log(Astro.url.pathname);
+console.log(Astro.url);
+
 interface Props {
   post: CollectionEntry<"blog">;
 }

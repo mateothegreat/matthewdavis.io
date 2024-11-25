@@ -1,0 +1,82 @@
+---
+title: "Unlocking Secure Kubernetes Access: Federated Identity in Azure"
+description: "Get ready to explore how we can leverage Kubernetes and Azure features to create a secure, scalable, and manageable identity federation system!"
+cover: "./cover.png"
+publish: "2024-07-12T12:00:00Z"
+created: "2024-07-12T12:00:00Z"
+updated: "2024-07-12T12:00:00Z"
+author:
+  name: "John Doe"
+  title: "Software Engineer"
+tags:
+  - azure
+  - aks
+  - kubernetes
+---
+Get ready to explore how we can leverage Kubernetes and Azure features to create a secure, scalable, and manageable identity federation system!
+
+In the constant evolution of cloud-native technologies, managing secure access to cloud resources from within Kubernetes clusters has become a critical concern.
+
+Imagine a world where your Kubernetes Service Accounts can seamlessly interact with Azure's Management API, all while maintaining robust security protocols. This isn't just a pipedream - it's achievable through the power of Azure Managed Identities.
+
+But how do we ensure that this access is both flexible and tightly controlled? The key lies in a clever strategy of separation of concerns. By carefully distributing permissions across multiple Kubernetes Service Accounts and then assigning them to specific workloads, we can create a granular and secure access model.
+
+
+## What we're trying to accomplish
+
+Kubernetes Service Accounts can access the Azure Management API through an Azure Managed Identity.
+
+Access restriction to the Managed Identity is done by splitting concerns across multiple Kubernetes Service Accounts and then assigning the appropriate one to the corresponding workloads.
+
+import { Image } from "astro:assets";
+import coverImage from "./cover.png";
+
+<Image src={coverImage} alt="Azure AKS Federated Identity Cover" class="cover-image" />
+
+## Pre-requisites
+
+Enable OIDC issuer and workload identity on your AKS cluster if it isn't already:
+
+```sh
+az aks update --name my-aks-cluster --subscription my-subscription --resource-group my-resource-group --enable-oidc-issuer --enable-workload-identity
+```
+
+Get the issuer for the next step:
+
+```sh
+az aks show --name my-aks-cluster --subscription my-subscription --resource-group my-resource-group --query "oidcIssuerProfile.issuerUrl" -o tsv
+```
+
+You should see output similar to `https://eastus.oic.prod-aks.azure.com/<your-tenant-id>/<cluster-issuer-id>/`.
+
+<Callout variant="warning" message="If you do not label your namespace(s) to match the selector above your routes will not be added!" />
+
+Create a ServiceAccount with workload identity:
+
+<Markdown variant="note" category="kubernetes" name="service-account-workload-identity" expanded={true} />
+
+## Testing
+
+import podImage from "./iTerm2-000879.png";
+
+<Image src={podImage} alt="Pod settings example." class="cover-image" />
+
+`kubectl exec` into the pod and run the following to login to Azure:
+
+```sh
+az login --federated-token "$(cat $AZURE_FEDERATED_TOKEN_FILE)" \
+          --service-principal -u $AZURE_CLIENT_ID \
+          --tenant $AZURE_TENANT_ID \
+          --allow-no-subscriptions
+```
+
+You should see output similar to:
+
+```json
+asdf
+```
+
+## Learn more
+
+- https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api
+- https://gateway-api.sigs.k8s.io

@@ -3,7 +3,7 @@
   import { mode, toggleMode } from "mode-watcher";
 </script>
 
-<a on:click={toggleMode}>
+<a onclick={toggleMode}>
   {#if $mode === "dark"}
     <Sun class="h-6 w-6 rotate-0 scale-100 cursor-pointer text-yellow-500/75 transition-all hover:text-green-500" />
   {:else if $mode === "light"}

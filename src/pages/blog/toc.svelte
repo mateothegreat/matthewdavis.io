@@ -2,7 +2,11 @@
   import { nest } from "$lib/arrays";
   import type { MarkdownHeading } from "astro";
 
-  export let headings: MarkdownHeading[];
+  interface Props {
+    headings: MarkdownHeading[];
+  }
+
+  let { headings }: Props = $props();
   const nestedHeadings = nest(headings);
 </script>
 

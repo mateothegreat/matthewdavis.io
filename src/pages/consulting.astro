@@ -1,0 +1,234 @@
+---
+import Header from "$components/header.svelte";
+import { Button } from "$lib/components/ui/button";
+import * as Card from "$lib/components/ui/card";
+import { Input } from "$lib/components/ui/input";
+import { Label } from "$lib/components/ui/label";
+import { ModeWatcher } from "mode-watcher";
+import BaseHead from "../components/base-head.astro";
+import Footer from "../components/footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <ModeWatcher client:load />
+    <Header client:visible />
+    <Card.Root class="mx-auto max-w-sm">
+      <Card.Header>
+        <Card.Title class="text-2xl">Login</Card.Title>
+        <Card.Description>Enter your email below to login to your account</Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <div class="grid gap-4">
+          <div class="grid gap-2">
+            <Label for="email">Email</Label>
+            <Input id="email" type="email" placeholder="m@example.com" required />
+          </div>
+          <div class="grid gap-2">
+            <div class="flex items-center">
+              <Label for="password">Password</Label>
+              <a href="##" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
+            </div>
+            <Input id="password" type="password" required />
+          </div>
+          <Button type="submit" class="w-full">Login</Button>
+          <Button variant="outline" class="w-full">Login with Google</Button>
+        </div>
+        <div class="mt-4 text-center text-sm">
+          Don't have an account?
+          <a href="##" class="underline"> Sign up </a>
+        </div>
+      </Card.Content>
+    </Card.Root>
+    <section class="bg-gradient-gray2 relative overflow-hidden pb-36 pt-32">
+      <img class="absolute left-0 top-1/2 -translate-y-1/2 transform" src="gradia-assets/elements/sign-up/radial.svg" alt="" />
+      <div class="container relative z-10 mx-auto px-4">
+        <div class="-m-6 flex flex-wrap">
+          <div class="w-full p-6 md:w-1/2">
+            <div class="md:max-w-xl">
+              <h2 class="font-heading mb-3 text-6xl font-bold text-gray-900 sm:text-7xl">Join Gradia for free</h2>
+              <p class="mb-12 text-lg text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada tellus vestibulum, commodo pulvinar.</p>
+              <div class="-m-2 mb-6 flex flex-wrap">
+                <div class="w-full p-2 md:w-1/2">
+                  <input class="w-full rounded-lg border border-gray-200 bg-white px-5 py-3.5 text-gray-500 placeholder-gray-500 outline-none focus:ring-4 focus:ring-indigo-500" type="text" placeholder="First name" name="first-name" />
+                </div>
+                <div class="w-full p-2 md:w-1/2">
+                  <input class="w-full rounded-lg border border-gray-200 bg-white px-5 py-3.5 text-gray-500 placeholder-gray-500 outline-none focus:ring-4 focus:ring-indigo-500" type="text" placeholder="Last name" name="last-name" />
+                </div>
+                <div class="w-full p-2">
+                  <input class="w-full rounded-lg border border-gray-200 bg-white px-5 py-3.5 text-gray-500 placeholder-gray-500 outline-none focus:ring-4 focus:ring-indigo-500" type="text" placeholder="Email address" name="email" />
+                </div>
+                <div class="w-full p-2">
+                  <input class="w-full rounded-lg border border-gray-200 bg-white px-5 py-3.5 text-gray-500 placeholder-gray-500 outline-none focus:ring-4 focus:ring-indigo-500" type="text" placeholder="Website" name="website" />
+                </div>
+              </div>
+              <div class="-m-1.5 mb-8 flex flex-wrap">
+                <div class="w-auto p-1.5">
+                  <input class="h-4 w-4" type="checkbox" />
+                </div>
+                <div class="flex-1 p-1.5">
+                  <p class="text-sm text-gray-500">
+                    <span>I agree to the</span>
+                    <a class="text-gray-900 hover:text-gray-700" href="#">Terms & Conditions</a>
+                    <span>of Gradia</span>
+                  </p>
+                </div>
+              </div>
+              <div class="group relative md:max-w-max">
+                <div class="bg-gradient-green absolute left-0 top-0 h-full w-full rounded-lg opacity-0 transition duration-300 ease-out group-hover:opacity-50"></div>
+                <button class="font-heading tracking-px w-full overflow-hidden rounded-md p-1 text-xs font-semibold uppercase text-gray-900 group-hover:text-white">
+                  <div class="bg-gradient-green relative overflow-hidden rounded-md p-5 px-9">
+                    <div class="absolute left-0 top-0 h-full w-full -translate-y-full transform bg-gray-900 transition duration-500 ease-in-out group-hover:-translate-y-0"></div>
+                    <p class="relative z-10">Sign up for free</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="w-full p-6 md:w-1/2">
+            <div class="ml-auto md:max-w-lg">
+              <div class="-m-6 flex flex-wrap">
+                <div class="w-auto p-6">
+                  <div class="-m-4 flex flex-wrap">
+                    <div class="w-full p-4">
+                      <p class="text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lacus urna aliquet malesuada gravida viverra vehicula. Elementum, fusce in eu nunc viverra. Diam enim, varius tincidunt orci sed mauris. Eu sed risus tempor lorem.</p>
+                    </div>
+                    <div class="w-full p-4">
+                      <div class="-m-1.5 flex flex-wrap items-center">
+                        <div class="w-auto p-1.5">
+                          <img src="gradia-assets/images/sign-up/elipse3.png" alt="" />
+                        </div>
+                        <div class="w-auto p-1.5">
+                          <h3 class="font-heading text-lg font-semibold text-gray-900">Kristin Watson</h3>
+                          <p class="text-sm text-gray-600">Scrum Master</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-auto p-6">
+                  <div class="-m-4 flex flex-wrap">
+                    <div class="w-full p-4">
+                      <p class="text-xl text-black">Elementum, fusce in eu nunc viverra. Diam enim, varius tincidunt orci sed mauris. Eu sed risus tempor lorem ipsum.</p>
+                    </div>
+                    <div class="w-full p-4">
+                      <div class="-m-1.5 flex flex-wrap items-center">
+                        <div class="w-auto p-1.5">
+                          <img src="gradia-assets/images/sign-up/elipse4.png" alt="" />
+                        </div>
+                        <div class="w-auto p-1.5">
+                          <h3 class="font-heading text-lg font-semibold text-gray-900">Jane Cooper</h3>
+                          <p class="text-sm text-gray-600">Software Tester</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="relative overflow-hidden bg-black pt-20">
+      <div class="container mx-auto px-4">
+        <div class="-m-6 mb-12 flex flex-wrap">
+          <div class="w-full p-6">
+            <h2 class="font-heading mb-16 max-w-xl text-6xl font-bold text-white sm:text-7xl">Three steps to get started</h2>
+            <div class="-m-6 flex flex-wrap">
+              <div class="w-full p-6 lg:w-1/2">
+                <div class="mb-11 lg:max-w-sm">
+                  <div class="-m-4 flex flex-wrap">
+                    <div class="w-auto p-4">
+                      <div class="bg-gradient-cyan2 max-w-max rounded-full p-px">
+                        <div class="font-heading flex h-12 w-12 items-center justify-center rounded-full bg-gray-900 text-xl text-white">1</div>
+                      </div>
+                    </div>
+                    <div class="flex-1 p-4">
+                      <h3 class="font-heading mb-4 text-xl font-medium text-white">Create A Free Account</h3>
+                      <p class="text-base text-gray-400">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-11 lg:max-w-sm">
+                  <div class="-m-4 flex flex-wrap">
+                    <div class="w-auto p-4">
+                      <div class="bg-gradient-cyan2 max-w-max rounded-full p-px">
+                        <div class="font-heading flex h-12 w-12 items-center justify-center rounded-full bg-gray-900 text-xl text-white">2</div>
+                      </div>
+                    </div>
+                    <div class="flex-1 p-4">
+                      <h3 class="font-heading mb-4 text-xl font-medium text-white">Select Your Package</h3>
+                      <p class="text-base text-gray-400">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-11 lg:max-w-sm">
+                  <div class="-m-4 flex flex-wrap">
+                    <div class="w-auto p-4">
+                      <div class="bg-gradient-cyan2 max-w-max rounded-full p-px">
+                        <div class="font-heading flex h-12 w-12 items-center justify-center rounded-full bg-gray-900 text-xl text-white">3</div>
+                      </div>
+                    </div>
+                    <div class="flex-1 p-4">
+                      <h3 class="font-heading mb-4 text-xl font-medium text-white">Grow Business Fast</h3>
+                      <p class="mb-11 text-base text-gray-400">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                      <div class="group relative max-w-max">
+                        <div class="bg-gradient-green absolute left-0 top-0 h-full w-full rounded-lg opacity-0 transition duration-300 ease-out group-hover:opacity-50"></div>
+                        <button class="font-heading tracking-px w-full overflow-hidden rounded-md p-1 text-xs font-semibold uppercase text-gray-900">
+                          <div class="bg-gradient-green relative overflow-hidden rounded-md p-4 px-11">
+                            <div class="absolute left-0 top-0 h-full w-full -translate-y-full transform bg-white transition duration-500 ease-in-out group-hover:-translate-y-0"></div>
+                            <p class="relative z-10">Get Started now</p>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pl-4 lg:absolute lg:bottom-0 lg:right-0 lg:w-1/2">
+        <div class="relative ml-auto max-w-max">
+          <img class="relative z-10 ml-auto" src="gradia-assets/images/how-it-works/dashboard.png" alt="" />
+          <div class="bg-gradient-cyan absolute -top-16 left-32 h-16 w-full rounded-tl-3xl"></div>
+        </div>
+      </div>
+    </section>
+    <section class="relative overflow-hidden bg-black pb-28 pt-32">
+      <img class="absolute left-0 top-0" src="gradia-assets/elements/contact/radial3.svg" alt="" />
+      <div class="container relative z-10 mx-auto px-4">
+        <div class="-m-6 flex flex-wrap">
+          <div class="w-full p-6 md:w-1/2">
+            <div class="md:max-w-lg">
+              <h2 class="font-heading xl:text-10xl mb-7 text-6xl font-semibold text-white sm:text-8xl">Want to get in touch with us?</h2>
+              <p class="text-lg text-gray-400">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
+          </div>
+          <div class="w-full p-6 md:w-1/2">
+            <div class="ml-auto md:max-w-md">
+              <p class="bg-gradient-cyan2 font-heading mb-4 max-w-max bg-clip-text text-lg font-semibold text-transparent">Send us a mail</p>
+              <p class="mb-16 text-2xl text-white">hello@gradia.io</p>
+              <p class="bg-gradient-cyan2 font-heading mb-4 max-w-max bg-clip-text text-lg font-semibold text-transparent">Follow us</p>
+              <ul>
+                <li class="mb-6 text-2xl text-white hover:text-gray-300"><a href="#">Facebook</a></li>
+                <li class="mb-6 text-2xl text-white hover:text-gray-300"><a href="#">Twitter</a></li>
+                <li class="mb-6 text-2xl text-white hover:text-gray-300"><a href="#">Linkedin</a></li>
+                <li class="mb-6 text-2xl text-white hover:text-gray-300"><a href="#">Instagram</a></li>
+                <li class="text-2xl text-white hover:text-gray-300"><a href="#">Pinterest</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <Footer />
+  </body>
+</html>

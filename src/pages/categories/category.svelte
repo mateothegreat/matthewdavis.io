@@ -1,7 +1,11 @@
 <script lang="ts">
   import { type CollectionEntry } from "astro:content";
 
-  export let category: CollectionEntry<"category">;
+  interface Props {
+    category: CollectionEntry<"category">;
+  }
+
+  let { category = $bindable() }: Props = $props();
 </script>
 
 <div class="col-span-3 flex cursor-pointer items-center justify-center gap-2 rounded-md border-2 p-4 hover:bg-slate-800 {category.data.theme?.border || 'border-slate-500'} ">

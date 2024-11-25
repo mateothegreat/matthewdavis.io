@@ -1,0 +1,299 @@
+---
+title: "Modal Management in Svelte"
+description: "Get ready to manage your modals in Svelte like a boss! Learn how to create a reusable modal component and manage your modals programmatically."
+cover: "./cover.png"
+publish: "2024-07-12T12:00:00Z"
+created: "2024-07-12T12:00:00Z"
+updated: "2024-07-12T12:00:00Z"
+author:
+  name: "Matthew Davis"
+  email: "matthew@matthewdavis.io"
+  title: "Principal Software Architect"
+tags:
+  - svelte
+  - sveltekit
+---
+To most developers, modals are a simple component. They are used to display a dialog box to the user.
+
+However, when you start building more complex applications, you'll quickly realize that managing modals can be a bit tricky.
+Especially when you need to manage multiple modals at the same time, states, events, oh my! 🧠
+
+In this blog post, we'll explore how to create a reusable modal component and manage your modals programmatically.
+
+## Prerequisites
+
+None!
+
+- No third party libraries.
+- No complex state management libraries.
+
+## Step 1: Modal Config Class
+
+First, we need to determine the capabilities that can be configured by the caller.
+
+We'll keep it simple for now and only include the following:
+
+- A unique identifier.
+- The Svelte component to render inside the modal.
+- A function to execute when the Escape key is pressed in the event we need to prompt the user for confirmation.
+
+Let's create a class called
+`ModalConfig` and place it in a `src/lib/config.ts` file. Here is our initial implementation:
+```ts
+import type { Component } from "svelte";
+
+/**
+ * Configuration options for a modal.
+ */
+export class ModalConfig {
+  /**
+   * A unique identifier for the modal.
+   */
+  public id?: string;
+  /**
+   * The Svelte component to render inside the modal.
+   */
+  public component: Component<any>;
+  /**
+   * A function to execute when the Escape key is pressed (optional).
+   * If the function returns true, the modal will close.
+   *
+   * Useful for things like confirmation modals where you want to
+   * ask the user if they are sure they want to close the modal.
+   */
+  public escFn?: () => Promise<boolean>;
+
+  public constructor(obj: ModalConfig) {
+    // For now, just copy the properties from the passed object
+    // straight away (we'll do something more complex later).
+    Object.assign(this, obj);
+    // Generate a random id if one was not provided.
+    this.id = obj.id || Math.random().toString(6);
+  }
+}
+```
+
+## Step 2: Modal Instance Class
+
+Next, we'll create a class called `ModalInstance` that will be responsible for managing a single modal instance.
+
+Let's create a `src/lib/instance.ts` file and add the following implementation:
+
+```ts
+import type { ModalManager } from '.';
+import { ModalConfig } from '.';
+
+export class ModalInstance<T, V = any> {
+  // The manager that created the instance.
+  public manager: ModalManager;
+  // The configuration options for the modal.
+  public config: ModalConfig;
+  // The element that the modal was mounted to.
+  public element?: HTMLElement;
+  // The overlay that the modal was mounted to.
+  public overlay?: any;
+  // The index of the modal so we can determine the order of the modals later.
+  public index?: number;
+  // Additional properties to pass to the modal component.
+  public props?: T;
+  // Whether the modal is on top of the stack.
+  public isOnTop?: boolean;
+  // A promise that we can resolve or reject later.
+  public promise?: Promise<V>;
+  // A function to resolve the promise when the modal is closed.
+  public resolve?: (value: V) => void;
+  // A function to reject the promise when the modal is closed.
+  public reject?: (reason?: any) => void;
+
+  public constructor(config: ModalConfig) {
+    // Create a new instance of the modal config so defaults
+    // can be assumed if they are not provided and we cannot
+    // depend on the caller to provide them.
+    this.config = new ModalConfig(config);
+    // Create a promise that we can resolve or reject later.
+    this.promise = new Promise((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+  }
+
+  /**
+   * Closes the modal by calling the manager's close method.
+   */
+  public close() {
+    // Close the modal by calling the manager's close method.
+    // We can do this because of scoping as we know the modal
+    // id and this method was likely called from the component
+    // that was passed in the config directly.
+    this.manager.close(this.config.id);
+  }
+}
+```
+
+## Step 3: Modal Manager Class
+
+```ts
+import { mount, unmount } from 'svelte';
+import type { ModalConfig } from './config';
+import { ModalInstance } from './modal-instance';
+import Modal from './modal.svelte';
+
+export class ModalManager {
+  /**
+   * A dictionary of all open modals.
+   */
+  public modals: { [name: string]: ModalInstance<any> } = {};
+
+  /**
+   * Opens a new modal.
+   * @param config - The configuration options for the modal.
+   * @param props - Additional properties to pass to the modal component.
+   */
+  public async open<T, V>(config: ModalConfig, props?: T): Promise<V> {
+    // Create a new instance of the modal.
+    const instance = new ModalInstance<T>(config);
+    // Add the instance to the modals dictionary.
+    this.modals[instance.config.id] = instance;
+    // Set the manager on the instance.
+    this.modals[instance.config.id].manager = this;
+    // Mount the overlay to the body.
+    this.modals[instance.config.id].overlay = mount(Modal, {
+      // Append the modal to the body directly.
+      target: document.body,
+      // Pass the instance and any additional props to the overlay
+      // which in turn get passed to the component passed in the
+      // config above.
+      props: {
+        // Pass the instance as a prop so it can be accessed by the component
+        // in the event that it needs to close the modal, or otherwise interact
+        // with the instance.
+        instance: this.modals[instance.config.id],
+        // Pass any additional props to the component that the caller may have
+        // passed in as the second argument to this method.
+        ...props
+      }
+    });
+    // Set the index of the modal so we can determine the order of the modals later.
+    this.modals[instance.config.id].index = Object.keys(this.modals).length - 1;
+    // Reset the isOnTop property for all modals.
+    Object.values(this.modals).forEach((modal) => {
+      modal.isOnTop = false;
+    });
+    // Set the isOnTop property for the newly opened modal.
+    const modalKeys = Object.keys(this.modals);
+    this.modals[modalKeys[modalKeys.length - 1]].isOnTop = true;
+    // Return the promise so the caller can wait for the modal to close.
+    return instance.promise;
+  }
+
+  /**
+   * Closes a modal, removing it from the dom and the modals dictionary.
+   * @param id - The unique identifier of the modal to close.
+   */
+  public close(id: string): void {
+    // If the modal is not found, log an error and return.
+    if (!this.modals[id]) {
+      console.error(`Modal with id ${id} not found`, this.modals);
+      return;
+    }
+
+    // Unmount the overlay from the dom.
+    unmount(this.modals[id].overlay);
+    // Delete the modal from the modals dictionary.
+    delete this.modals[id];
+    // Reset the isOnTop property for all modals.
+    Object.values(this.modals).forEach((modal) => {
+      modal.isOnTop = false;
+    });
+    // Set the isOnTop property for the last modal in the stack.
+    const modalKeys = Object.keys(this.modals);
+    if (modalKeys.length > 0) {
+      this.modals[modalKeys[modalKeys.length - 1]].isOnTop = true;
+    }
+  }
+
+  /**
+   * Gets the index of a modal.
+   * @param id - The unique identifier of the modal.
+   * @returns The index of the modal.
+   */
+  public getIndex(id: string): number {
+    return this.modals[id].index;
+  }
+
+  /**
+   * Checks if a modal is on top.
+   * @param id - The unique identifier of the modal.
+   * @returns Whether the modal is on top.
+   */
+  public isOnTop(id: string): boolean {
+    return this.getIndex(id) === Object.keys(this.modals).length - 1;
+  }
+}
+```
+
+## Step 4: Create a Modal Component
+
+## Step 5: Spin up The Demo!
+
+### Simple Modal Component Content
+
+```svelte
+<script lang="ts">
+  import { onMount } from "svelte";
+  import type { ModalInstance } from "@mateothegreat/svelte5-modal-manager";
+
+  type Props = {
+    // This is passed in by the manager.
+    instance: ModalInstance<any>;
+    // This is passed in by the caller.
+    userId: string;
+  };
+
+  // Destructure the props passed in by the manager.
+  let { instance, userId }: Props = $props();
+
+  onMount(() => {
+    console.log("my modal component mounted", instance);
+  });
+</script>
+
+<div
+  style="display: flex; gap: 10px; justify-content: center; align-items: center; background: rebeccapurple; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height: 100%;">
+  <div>I am modal, user id is: {userId}!</div>
+  <button onclick={() => instance.close()}>Close</button>
+</div>
+```
+### Helper File
+
+Create a `src/lib/modals.ts` file and add the following implementation:
+
+```ts
+import { ModalManager } from "@mateothegreat/svelte5-modal-manager";
+import ModalOne from "./lib/modal-one.svelte";
+
+export const modalManager = new ModalManager();
+
+// This is a helper function that can be called from any component
+// to open this specific modal by simply exporting it from this
+// file and importing it wherever else we need it!
+export const openSomeCoolModal = (userId: string) => {
+  modalManager.open(ModalOne, { userId });
+};
+```
+
+This will allow us to easily manage our modals throughout the application without
+having to manually create a new instance of the modal manager everywhere we need it.
+
+### Opening & Closing the Modal
+
+In your app.svelte file, you can now open the modal like this:
+```svelte
+<script lang="ts">
+  // ... other imports ...
+  import { modalManager } from "./lib/modal-manager";
+
+  // Open the modal with a specific user id.
+  modalManager.open(ModalOne, { userId: "123" });
+</script>
+```

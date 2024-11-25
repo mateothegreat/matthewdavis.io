@@ -3,7 +3,7 @@
   import Normal from "./cards/normal.svelte";
   import Tag from "./tag.svelte";
 
-  export let post;
+  let { post } = $props();
 </script>
 
 <div style="background-image: url({post.data.cover})" class="inline-flex min-h-[175px] min-w-[300px] cursor-pointer flex-col rounded-xl border-2 bg-black/30 bg-cover bg-center bg-blend-darken dark:border-slate-900 dark:bg-zinc-900/40 hover:dark:border-slate-800">

@@ -3,7 +3,11 @@
   import type { TocConfig } from "./toc-config";
   import Toc from "./toc.svelte";
 
-  export let config: TocConfig[];
+  interface Props {
+    config: TocConfig[];
+  }
+
+  let { config }: Props = $props();
 
   let items = Array.isArray(config) ? config : [];
 </script>

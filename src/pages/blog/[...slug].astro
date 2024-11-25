@@ -11,21 +11,38 @@ import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 import BlogPost from "../../layouts/blog-post.astro";
 import Button from "$components/button.astro";
-import { Stars } from "lucide-svelte";
-import Author from "./author.astro";
-import Tag from "./tag.astro";
+
+// export async function getStaticPaths() {
+//   const posts = await getCollection("blog");
+
+//   return posts.map((post) => ({
+//     params: {
+//       slug: post.slug
+//     },
+//     props: {
+//       post
+//     }
+//   }));
+// }
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
 
-  return posts.map((post) => ({
-    params: {
-      slug: post.slug
-    },
-    props: {
-      post
-    }
-  }));
+  return posts.map((post) => {
+    console.log("post", post.slug);
+    const slugParts = post.slug.split("/"); // Split the slug by '/'
+
+    console.log(`Generated path: ${slugParts.join("/")}`); // Log the generated path
+
+    return {
+      params: {
+        slug: slugParts.join("/") // Use the entire array of slug parts
+      },
+      props: {
+        post
+      }
+    };
+  });
 }
 
 const { slug } = Astro.params;
