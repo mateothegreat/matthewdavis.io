@@ -1,0 +1,28 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const childPages = [
+  { slug: "content-slug-01", title: "Content 01" },
+  { slug: "content-slug-02", title: "Content 02" },
+  { slug: "content-slug-03", title: "Content 03" }
+];
+---
+
+<Layout>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="mb-6 text-2xl font-bold">Content hub page</h1>
+    <ul class="list-inside list-disc space-y-2">
+      {
+        childPages.map(({ slug, title }) => (
+          <li>
+            <a
+              href={`content/${slug}`}
+              class="text-blue-600 hover:underline">
+              {title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>

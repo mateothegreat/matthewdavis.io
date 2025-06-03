@@ -1,0 +1,42 @@
+---
+const pages = [
+  {
+    title: "Home",
+    href: "/"
+  },
+  {
+    title: "Content",
+    href: "/content"
+  },
+  {
+    title: "Docs",
+    href: "/docs"
+  },
+  {
+    title: "About",
+    href: "/about"
+  },
+  {
+    title: "Support",
+    href: "/support"
+  }
+];
+---
+
+<header class="border-b border-gray-200 p-4">
+  <nav>
+    <ul class="flex space-x-4">
+      {
+        pages.map((page) => (
+          <li>
+            <a
+              href={page.href}
+              class="text-gray-600 hover:text-gray-900">
+              {page.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,22 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+export function getStaticPaths() {
+  // dummy paths
+  return [
+    { params: { slug: "support-slug-01" } },
+    { params: { slug: "support-slug-02" } },
+    { params: { slug: "support-slug-03" } }
+  ];
+}
+
+const { slug } = Astro.params;
+---
+
+<Layout>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="mb-6 text-2xl font-bold">
+      Support page slug: {slug}
+    </h1>
+  </div>
+</Layout>
