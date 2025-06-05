@@ -1,6 +1,5 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-
 import { getCollection } from "astro:content";
 
 const content = await getCollection("content");
@@ -17,7 +16,7 @@ const content = await getCollection("content");
               <a
                 class="underline"
                 href={`/content/${data.slug}/`}>
-                {data.name}
+                {data.title}
               </a>
             </li>
           );

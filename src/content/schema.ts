@@ -5,23 +5,18 @@ const PropRelationShema = z.object({
   relation: z.array(z.object({ id: z.string() }))
 });
 
-export const PageShema = notionPageSchema({
+export const PageSchema = notionPageSchema({
   properties: z.object({
     Name: transformedPropertySchema.title,
     Created: propertySchema.created_time.optional(),
     Series: PropRelationShema
   })
 })
-  .extend({
-    content: z.string().optional()
-  })
   .transform((data) => {
     return {
       ...data,
-      name: data.properties.Name,
+      title: data.properties.Name,
       slug: data.url.split("/").pop(),
       series: data.properties.Series?.relation.map(({ id }) => id) ?? [],
-      // content уже доступен из расширенной схемы
-      content: data.content || ""
     };
   });

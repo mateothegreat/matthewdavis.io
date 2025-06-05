@@ -1,10 +1,9 @@
 import { defineCollection } from "astro:content";
-import notionLoaderWithContent from "./loader";
-
-import { PageShema } from "./schema";
+import { PageSchema } from "./schema";
+import notionLoaderWithRelations from "./loader";
 
 const content = defineCollection({
-  loader: notionLoaderWithContent({
+  loader: notionLoaderWithRelations({
     auth: import.meta.env.NOTION_API_KEY,
     database_id: "16ad7342-e571-80c4-a065-c7a1015871d3",
     filter: {
@@ -18,7 +17,7 @@ const content = defineCollection({
       }
     ]
   }),
-  schema: PageShema
+  schema: PageSchema
 });
 
 export const collections = { content };
