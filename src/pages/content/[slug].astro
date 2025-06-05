@@ -11,12 +11,14 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
+const data = Astro.props.page.data;
 ---
 
 <Layout>
   <div class="container mx-auto px-4 py-8">
     <h1 class="mb-6 text-2xl font-bold">
-      Page title: {Astro.props.page.data.name}
+      Page title: {data.name}
     </h1>
+    <div set:html={data.content} />
   </div>
 </Layout>

@@ -11,11 +11,17 @@ export const PageShema = notionPageSchema({
     Created: propertySchema.created_time.optional(),
     Series: PropRelationShema
   })
-}).transform((data) => {
-  return {
-    ...data,
-    name: data.properties.Name,
-    slug: data.url.split("/").pop(),
-    series: data.properties.Series?.relation.map(({ id }) => id) ?? []
-  };
-});
+})
+  .extend({
+    content: z.string().optional()
+  })
+  .transform((data) => {
+    return {
+      ...data,
+      name: data.properties.Name,
+      slug: data.url.split("/").pop(),
+      series: data.properties.Series?.relation.map(({ id }) => id) ?? [],
+      // content уже доступен из расширенной схемы
+      content: data.content || ""
+    };
+  });
