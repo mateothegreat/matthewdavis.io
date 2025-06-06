@@ -50,3 +50,27 @@ export const PageSchema = notionPageSchema({
     slug: data.url.split("/").pop()
   };
 });
+
+export const SeriesSchema = notionPageSchema({
+  properties: z.object({
+    Name: transformedPropertySchema.title,
+    Excerpt: transformedPropertySchema.rich_text,
+    "Content Links": RelationSchema
+  })
+}).transform((data) => ({
+  name: data.properties.Name,
+  excerpt: data.properties.Excerpt,
+  contentLinks: data.properties["Content Links"]
+}));
+
+// export const TagsSchema = notionPageSchema({
+//   properties: z.object({
+//     Name: transformedPropertySchema.title,
+//     Excerpt: transformedPropertySchema.rich_text,
+//     "Content Links": RelationSchema
+//   })
+// }).transform((data) => ({
+//   name: data.properties.Name,
+//   excerpt: data.properties.Excerpt,
+//   contentLinks: data.properties["Content Links"]
+// }));

@@ -2,7 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
-const content = await getCollection("content");
+const pagesCollection = await getCollection("pages");
 ---
 
 <Layout>
@@ -10,7 +10,7 @@ const content = await getCollection("content");
     <h1 class="mb-6 text-2xl font-bold">Content hub page</h1>
     <ul class="list-disc space-y-2">
       {
-        content.map(({ data }) => {
+        pagesCollection.map(({ data }) => {
           return (
             <li>
               <a

@@ -3,31 +3,34 @@ import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const pages = await getCollection("content");
+  const pagesCollection = await getCollection("pages");
 
-  return pages.map((page) => ({
+  return pagesCollection.map((page) => ({
     params: { slug: page.data.slug },
     props: { page }
   }));
 }
 
-const data = Astro.props.page.data;
-const contentHTML = Astro.props.page.rendered?.html;
+const seriesCollection = await getCollection("series");
 
-console.log("cover", data.cover);
+const pageData = Astro.props.page.data;
+const pageHTML = Astro.props.page.rendered?.html;
+const pageSeries = pageData.series.relation.map((seriesId) => {
+  return seriesCollection.find(({ id }) => id === seriesId)?.data.name;
+});
 ---
 
 <Layout>
   <div class="container mx-auto px-4 py-8">
     <h1 class="mb-6 text-2xl font-bold">
-      Page title: {data.name}
+      Page title: {pageData.name}
     </h1>
     <div>
-      <!-- <img src={data.cover} /> -->
+      Page series: {pageSeries.join(", ")}
     </div>
     <div
       class="mt-2"
-      set:html={contentHTML}
+      set:html={pageHTML}
     />
   </div>
 </Layout>
