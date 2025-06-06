@@ -1,7 +1,7 @@
 import { z } from "astro/zod";
 import { notionPageSchema, propertySchema, transformedPropertySchema } from "notion-astro-loader/schemas";
 
-const RelationSchema = z
+const relationProperySchema = z
   .object({
     relation: z.array(z.object({ id: z.string() }))
   })
@@ -13,18 +13,18 @@ export const PageSchema = notionPageSchema({
   properties: z.object({
     Name: transformedPropertySchema.title,
     Created: propertySchema.created_time.optional(),
-    Series: RelationSchema,
+    Series: relationProperySchema,
     Section: transformedPropertySchema.select,
     Status: transformedPropertySchema.status,
     Weight: transformedPropertySchema.number,
     "Publish Date": transformedPropertySchema.date,
     URL: transformedPropertySchema.url,
-    "URL Database Links": RelationSchema,
+    "URL Database Links": relationProperySchema,
     Type: transformedPropertySchema.select,
     Tags: transformedPropertySchema.multi_select,
     Excerpt: transformedPropertySchema.rich_text,
-    "Glossary Links": RelationSchema,
-    "Snippet Package": RelationSchema
+    "Glossary Links": relationProperySchema,
+    "Snippet Package": relationProperySchema
   })
 }).transform((data) => {
   return {
@@ -55,22 +55,10 @@ export const SeriesSchema = notionPageSchema({
   properties: z.object({
     Name: transformedPropertySchema.title,
     Excerpt: transformedPropertySchema.rich_text,
-    "Content Links": RelationSchema
+    "Content Links": relationProperySchema
   })
 }).transform((data) => ({
   name: data.properties.Name,
   excerpt: data.properties.Excerpt,
   contentLinks: data.properties["Content Links"]
 }));
-
-// export const TagsSchema = notionPageSchema({
-//   properties: z.object({
-//     Name: transformedPropertySchema.title,
-//     Excerpt: transformedPropertySchema.rich_text,
-//     "Content Links": RelationSchema
-//   })
-// }).transform((data) => ({
-//   name: data.properties.Name,
-//   excerpt: data.properties.Excerpt,
-//   contentLinks: data.properties["Content Links"]
-// }));
